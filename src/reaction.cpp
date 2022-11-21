@@ -169,23 +169,23 @@ void Reaction::SetProton(int i) {
   // _pz_prime_prot_E = _prot_mom_tmt;// * TMath::Cos(_prot_theta_tmt);
 
   // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P); // energy loss corrected
-  // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
-
-  // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-  // if (_is_FD) {
-  //   fpro = mom_corr::dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
-  // } else {
-  //   fpro = 1.0;
-  // }
-
-  // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
-
-  // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P); // energy loss +
-  // FD had corr
   _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+
+  // // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+  // // if (_is_FD) {
+  // //   fpro = mom_corr::dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
+  // // } else {
+  // //   fpro = 1.0;
+  // // }
+
+  // // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+
+  // // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P); // energy loss +
+  // // FD had corr
+  // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
   // /// our version of hadron mom corrections
 
@@ -266,6 +266,8 @@ void Reaction::SetProton(int i) {
       _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * cos(DEG2RAD * _pip_theta_tmt) /
                         cos(DEG2RAD * _pip_theta_uncorr);
 
+      _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+
       // std::cout << " x now " << _px_prime_pip_E << " x before " << _data->px(i) << " diff percent "
       //           << abs(_px_prime_pip_E - _data->px(i)) / _data->px(i) *100 << std::endl;
 
@@ -277,7 +279,7 @@ void Reaction::SetProton(int i) {
 
       // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
-      _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+      // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
       // if (_is_FD) {
       //   // _sectorPip = _data->dc_sec(i);
@@ -670,8 +672,8 @@ float Reaction::MM2_mProt_corr() {
   if (TwoPion_missingProt()) {
   // if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
-    *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+    // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+    *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
     return missingprot_->M2();
   } else
