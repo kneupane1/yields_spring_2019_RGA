@@ -168,7 +168,7 @@ struct csv_data {
     // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
     // // mProt case
-    return "sec_pim,sec_pip,sec_prot,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,status_"
+    return "sec_pim,sec_pip,sec_prot,pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,status_"
            "Pim,status_Pip,status_Prot,weight";
     // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
 
@@ -234,20 +234,20 @@ struct csv_data {
 
     // os << data.prot_theta_mProt << ",";
     // os << data.prot_phi_mProt << ",";
-    // os << std::setprecision(10);
-
-    // os << data.pip_mom_mPip << ",";
-    // os << std::setprecision(7);
-
-    // os << data.pip_theta_mPip << ",";
-    // os << data.pip_phi_mPip << ",";
     os << std::setprecision(10);
 
-    os << data.pim_mom_mPim << ",";
+    os << data.pip_mom_mPip << ",";
     os << std::setprecision(7);
 
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
+    os << data.pip_theta_mPip << ",";
+    os << data.pip_phi_mPip << ",";
+    // os << std::setprecision(10);
+
+    // os << data.pim_mom_mPim << ",";
+    // os << std::setprecision(7);
+
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
 
     // // // // measured
     // os << std::setprecision(10);
@@ -295,11 +295,11 @@ struct csv_data {
     // os << data.mm2_mProt << ",";
     // os << data.mm2_mProt_corr << ",";
 
-    // os << data.mm2_mPip << ",";
-    // os << data.mm2_mPip_corr << ",";
+    os << data.mm2_mPip << ",";
+    os << data.mm2_mPip_corr << ",";
 
-    os << data.mm2_mPim << ",";
-    os << data.mm2_mPim_corr << ",";
+    // os << data.mm2_mPim << ",";
+    // os << data.mm2_mPim_corr << ",";
     // os << std::setprecision(7);
     // os << data.mm2_exclusive_at_zero << ",";
     // os << data.energy_x_mu << ",";
@@ -317,7 +317,7 @@ struct csv_data {
     // os << std::setprecision(1);
     // os << data.weight_mProt << ",";
 
-    os << data.weight_exclusive << ",";
+    os << data.weight_mPip << ",";
 
     ///.......................................
 
