@@ -666,21 +666,12 @@ float Reaction::MM2_mPim_corr() {
 //     return NAN;
 // }
 
-<<<<<<< Updated upstream
-float Reaction::MM2_mProt_corr() {
-  if (TwoPion_missingProt()) {
-  // if (TwoPion_exclusive()) {
-    auto missingprot_ = std::make_unique<TLorentzVector>();
-    *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
-=======
 // float Reaction::MM2_mProt_corr() {
 //   if (TwoPion_missingProt()) {
 //   // if (TwoPion_exclusive()) {
 //     auto missingprot_ = std::make_unique<TLorentzVector>();
 //     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
 //     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
->>>>>>> Stashed changes
 
 //     return missingprot_->M2();
 //   } else
