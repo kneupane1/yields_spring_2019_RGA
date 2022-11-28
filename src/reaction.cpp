@@ -49,11 +49,11 @@ Reaction::~Reaction() {}
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  // _W = physics::W_calc(*_beam, *_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+  _W = physics::W_calc(*_beam, *_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_elec);
 
   // // // //One way of  calculating mom - corrected four vectors
   // // //   // // _cx = _data->px(0)/_elec->P();
@@ -83,30 +83,30 @@ void Reaction::SetElec() {
   // // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
   // // _P_elec = _elec->P();
 }
-void Reaction::SetMomCorrElec() {
-  // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+// void Reaction::SetMomCorrElec() {
+//   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
 
-  // New electron momentum corrections
-  fe = mom_corr::dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-  _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                          MASS_E);  // this is new electron mom corrections aug 2022
+//   // New electron momentum corrections
+//   fe = mom_corr::dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+//   _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+//                           MASS_E);  // this is new electron mom corrections aug 2022
 
-  // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
-  // _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                         _data->pz(0) * _elec_mom_corrected, MASS_E);
+//   // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+//   // _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+//   //                         _data->pz(0) * _elec_mom_corrected, MASS_E);
 
-  // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+//   // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+//   //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  *_gamma += *_beam - *_mom_corr_elec;
-  _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
-  _W = physics::W_calc(*_beam, *_mom_corr_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+//   *_gamma += *_beam - *_mom_corr_elec;
+//   _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+//   _W = physics::W_calc(*_beam, *_mom_corr_elec);
+//   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
-  _P_elec = _mom_corr_elec->P();
-  // _E_elec = _mom_corr_elec->E();
-  _theta_e = _mom_corr_elec->Theta() * 180 / PI;
-}
+//   _P_elec = _mom_corr_elec->P();
+//   // _E_elec = _mom_corr_elec->E();
+//   _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+// }
 // double Reaction::Corr_elec_mom() {
 //   if (_P_elec != _P_elec) SetMomCorrElec();
 //   // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
@@ -190,22 +190,22 @@ void Reaction::SetProton(int i) {
   // _py_prime_prot_E = _prot_mom_tmt;// * TMath::Sin(_prot_theta_tmt) * TMath::Sin(_prot_phi_tmt);
   // _pz_prime_prot_E = _prot_mom_tmt;// * TMath::Cos(_prot_theta_tmt);
 
-  // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P); // energy loss corrected
+  _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P); // energy loss corrected
   _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
-  // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-  if (_is_FD) {
-    fpro = mom_corr::dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
-  } else {
-    fpro = 1.0;
-  }
+  // // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+  // if (_is_FD) {
+  //   fpro = mom_corr::dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
+  // } else {
+  //   fpro = 1.0;
+  // }
 
-  // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+  // // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  // // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
-  _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P); // energy loss +
+  // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P); // energy loss +
   // FD had corr
   // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
@@ -297,17 +297,17 @@ void Reaction::SetProton(int i) {
       // _py_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Sin(_pip_phi_tmt);
       // _pz_prime_pip_E = _pip_mom_tmt;// * TMath::Cos(_pip_theta_tmt);
 
-      // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+      _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
       _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
-      if (_is_FD) {
-        // _sectorPip = _data->dc_sec(i);
-        fpip = mom_corr::dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
-      } else {
-        fpip = 1.0;
-      }
-      _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
+      // if (_is_FD) {
+      //   // _sectorPip = _data->dc_sec(i);
+      //   fpip = mom_corr::dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
+      // } else {
+      //   fpip = 1.0;
+      // }
+      // _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
 
 
 
@@ -388,17 +388,17 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr)) * cos(DEG2RAD * _pim_theta_tmt) /
                     cos(DEG2RAD * _pim_theta_uncorr);
 
-  // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
   _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
-  if (_is_FD) {
-    // _sectorPim = _data->dc_sec(i);
-    fpim = mom_corr::dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
-  } else {
-    fpim = 1.0;
-  }
-  _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
+  // if (_is_FD) {
+  //   // _sectorPim = _data->dc_sec(i);
+  //   fpim = mom_corr::dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
+  // } else {
+  //   fpim = 1.0;
+  // }
+  // _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
 
 
 // // our hadron mom corrections
