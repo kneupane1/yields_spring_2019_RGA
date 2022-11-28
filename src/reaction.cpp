@@ -122,7 +122,7 @@ void Reaction::SetProton(int i) {
   _prot_status = abs(_data->status(i));
 
   _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-  _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+  // _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
 
   _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
 
@@ -203,7 +203,7 @@ void Reaction::SetProton(int i) {
   // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
   // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
   // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+  _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
   // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P); // energy loss +
   // FD had corr
@@ -246,7 +246,7 @@ void Reaction::SetProton(int i) {
           RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
       _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-      _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+      // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 
       _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
       _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
@@ -297,7 +297,7 @@ void Reaction::SetProton(int i) {
       // _py_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Sin(_pip_phi_tmt);
       // _pz_prime_pip_E = _pip_mom_tmt;// * TMath::Cos(_pip_theta_tmt);
 
-      // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+      _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
       _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
@@ -346,7 +346,7 @@ void Reaction::SetPim(int i) {
   _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 
   _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
   _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
@@ -388,7 +388,7 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr)) * cos(DEG2RAD * _pim_theta_tmt) /
                     cos(DEG2RAD * _pim_theta_uncorr);
 
-  // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
   _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
