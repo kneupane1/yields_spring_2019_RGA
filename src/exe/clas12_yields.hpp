@@ -229,12 +229,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.mm2_exclusive_at_zero = event->MM2_exclusive();
         output.energy_x_mu = event->Energy_excl();
 
+        output.inv_ppip = event->inv_Ppip();
+        output.inv_ppim = event->inv_Ppim();
+        output.inv_pip_pim = event->inv_Pippim();
+
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
         output.status_Prot = statusProt;
-        // output.inv_ppip = event->inv_Ppip();
-        // output.inv_ppim = event->inv_Ppim();
-        // output.inv_pip_pim = event->inv_Pippim();
 
         output.weight_exclusive = event->weight();
 
