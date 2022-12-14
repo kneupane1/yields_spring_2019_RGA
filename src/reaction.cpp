@@ -788,9 +788,9 @@ float Reaction::pim_Phi_lab_measured() {
 }
 float Reaction::pim_momentum_corrected() {
   if (TwoPion_exclusive())
-    return _mom_corr_pim->P();
-  else
-    return NAN;
+    // return _mom_corr_pim->P();
+      return _pim->Perp();
+   else return NAN;
 }
 // float Reaction::w_hadron() {
 //   if (TwoPion_exclusive())
@@ -903,7 +903,9 @@ float Reaction::pip_Phi_lab_measured() {
 
 float Reaction::pip_momentum_corrected() {
   if (TwoPion_exclusive())
-    return _mom_corr_pip->P();
+    // return _mom_corr_pip->P();
+    return _pip->Perp();
+
   else
     return NAN;
 }
@@ -993,7 +995,9 @@ float Reaction::prot_Phi_lab_measured() {
 
 float Reaction::prot_momentum_corrected() {
   if (TwoPion_exclusive())
-    return _mom_corr_prot->P();
+    // return _mom_corr_prot->P();
+    return _prot->Perp();
+
   else
     return NAN;
 }
