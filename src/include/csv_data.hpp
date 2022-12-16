@@ -126,55 +126,59 @@ struct csv_data {
   float inv_ppim;
   float inv_pip_pim;
 
-  // Static functions can be called without making a new struct
-  static std::string header() {
-    // Make a string for the header of the csv file mPim case
-    // return "w,q2,elec_en,elec_theta,weight";
-    // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
+float chi2pid_e;
+float chi2pid_p;
+float chi2pid_pip;
+float chi2pid_pim;
 
-    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
-    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+// Static functions can be called without making a new struct
+static std::string header() {
+  // Make a string for the header of the csv file mPim case
+  // return "w,q2,elec_en,elec_theta,weight";
+  // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
 
+  // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
+  // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
-    // for all 3 particles // // Data/ Simulations excl....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
-    // return "prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,pim_mom_gen,pim_theta_gen,"
-    //        "pim_phi_gen,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
-    //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,"
-    //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
-    //        "status_Pip,status_Prot,weight";
-    // return "prot_sec,prot_mom_gen,prot_theta_gen,prot_phi_gen,"
-    //        "prot_mom_mes,prot_theta_mes,prot_phi_mes,dcr1_theta_prot,"
-    //        "mm2_exclusive_at_zero,energy_x_mu,status_Prot,weight";
+  // for all 3 particles // // Data/ Simulations excl....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
+  // return "prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,pim_mom_gen,pim_theta_gen,"
+  //        "pim_phi_gen,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+  //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,"
+  //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
+  //        "status_Pip,status_Prot,weight";
+  // return "prot_sec,prot_mom_gen,prot_theta_gen,prot_phi_gen,"
+  //        "prot_mom_mes,prot_theta_mes,prot_phi_mes,dcr1_theta_prot,"
+  //        "mm2_exclusive_at_zero,energy_x_mu,status_Prot,weight";
 
-    // return "pip_sec,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
-    //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,dcr1_theta_pip,"
-    //        "status_Pip,weight";
-    // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
-    //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
-    //        "status_Pim,weight";
-    return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
-           "miss,pip_mom_miss,pip_"
-           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
-           "dcr1_theta_prot,prot_pt,"
-           "pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,dcr1_theta_pip,pip_pt,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_pt,mm2_"
-           "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
-           "exclusive_at_zero,energy_x_mu,inv_ppip,inv_ppim,inv_pippim,"
-           "status_Pim,"
-           "status_Pip,status_Prot,weight";
+  // return "pip_sec,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
+  //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,dcr1_theta_pip,"
+  //        "status_Pip,weight";
+  // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
+  //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
+  //        "status_Pim,weight";
+  return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
+         "miss,pip_mom_miss,pip_"
+         "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+         "dcr1_theta_prot,prot_pt,"
+         "pip_mom_mes,pip_theta_mes,pip_phi_"
+         "mes,dcr1_theta_pip,pip_pt,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_pt,mm2_"
+         "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
+         "exclusive_at_zero,energy_x_mu,inv_ppip,inv_ppim,inv_pippim,"
+         "status_Pim,"
+         "status_Pip,status_Prot,chi2_e,chi2_p,chi2_pip,chi2_pim,weight";
 
-    // mPip case
-    // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
-    // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
+  // mPip case
+  // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
+  // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
-    // // mProt case
-    // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
-    // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
+  // // mProt case
+  // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
+  // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
 
-    //for cross-section checks
-    // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
-    // return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
-    // return "w_mc,q2_mc,weight";
+  // for cross-section checks
+  // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
+  // return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
+  // return "w_mc,q2_mc,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -313,6 +317,11 @@ struct csv_data {
     os << data.status_Pim << ",";
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
+
+    os << data.chi2pid_e<< ",";
+    os << data.chi2pid_p << ",";
+    os << data.chi2pid_pip << ",";
+    os << data.chi2pid_pim << ",";
 
     // os << std::setprecision(1);
 

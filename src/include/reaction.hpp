@@ -146,9 +146,14 @@ class Reaction {
   double fpro = NAN;
   double fpip = NAN;
   double fpim = NAN;
-  float _thetaDC_r1_Prot = NAN;;
-  float _thetaDC_r1_Pip = NAN;;
-  float _thetaDC_r1_Pim = NAN;;
+  float _thetaDC_r1_Prot = NAN;
+  float _thetaDC_r1_Pip = NAN;
+  float _thetaDC_r1_Pim = NAN;
+
+  float _chi2pid_Ele = NAN;
+  float _chi2pid_Prot = NAN;
+  float _chi2pid_Pip= NAN;
+  float _chi2pid_Pim = NAN;
 
   //
   static const int CD_SEC = 3;
@@ -566,8 +571,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
@@ -715,6 +720,11 @@ class Reaction {
   inline float thetaDCr1Prot(){ return _thetaDC_r1_Prot;}
   inline float thetaDCr1Pip() { return _thetaDC_r1_Pip; }
   inline float thetaDCr1Pim() { return _thetaDC_r1_Pim; }
+
+  inline float chi2pid_Elec() { return _chi2pid_Ele; }
+  inline float chi2pid_Prot() { return _chi2pid_Prot; }
+  inline float chi2pid_Pip() { return _chi2pid_Pip; }
+  inline float chi2pid_Pim() { return _chi2pid_Pim; }
 
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }

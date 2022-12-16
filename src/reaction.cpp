@@ -54,7 +54,7 @@ void Reaction::SetElec() {
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
-
+  _chi2pid_Ele = _data->chi2pid(0);
   // // // //One way of  calculating mom - corrected four vectors
   // // //   // // _cx = _data->px(0)/_elec->P();
   // // //   // // _cy = _data->py(0) / _elec->P();
@@ -120,6 +120,7 @@ void Reaction::SetProton(int i) {
   _hasP = true;
   _sectorProt = _data->dc_sec(i);
   _prot_status = abs(_data->status(i));
+  _chi2pid_Prot = _data->chi2pid(i);
 
   // _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
@@ -245,6 +246,7 @@ void Reaction::SetProton(int i) {
       _sectorPip = _data->dc_sec(i);
       _thetaDC_r1_Pip =
           RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
+      _chi2pid_Pip = _data->chi2pid(i);
 
       // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
       _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -346,6 +348,7 @@ void Reaction::SetPim(int i) {
   _pim_status = abs(_data->status(i));
   _sectorPim = _data->dc_sec(i);
   _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
+  _chi2pid_Pim = _data->chi2pid(i);
 
   // _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
