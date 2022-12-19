@@ -219,7 +219,7 @@ bool uconn_Cuts::ElectronCuts() {
 }
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
- // cut &= DC_fiducial_cut_theta_phi(i);
+ cut &= DC_fiducial_cut_theta_phi(i);
   cut &= Hadron_Delta_vz_cut(i);
   cut &= Hadron_Chi2pid_cut(i);
   return cut;
@@ -1161,6 +1161,9 @@ bool uconn_Cuts::Hadron_Chi2pid_cut(int i) {
     coef = 0.88;
   else if (pid == -211)
     coef = 0.93;
+  else if (pid == 2212)
+    return abs(chi2pid) < 2.64;  /// please confirm this first
+
   else
     return false;
 
