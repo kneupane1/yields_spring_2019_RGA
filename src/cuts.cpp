@@ -1162,7 +1162,7 @@ bool uconn_Cuts::Hadron_Chi2pid_cut(int i) {
   else if (pid == -211)
     coef = 0.93;
   else if (pid == 2212)
-    return abs(chi2pid) < 2.64;  /// please confirm this first
+    return abs(chi2pid) < 3.0;  /// please confirm this first 2.64 is given for rga fall 2018
 
   else
     return false;
