@@ -155,7 +155,7 @@ bool Cuts::IsProton(int i) {
   //   _proton &= (_data->p(i) > 0.0);
   //   _proton &= (_data->p(i) < 3.0);
   // }
-    //   _proton &= (_data->p(i) > 0.2);
+  //   _proton &= (_data->p(i) > 0.2);
   // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
 }
@@ -175,13 +175,13 @@ bool Cuts::IsPim(int i) {
   //   _pim &= (_data->p(i) < 3.0);
   // }
 
-    // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
+  // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
 
-    //_pim &= DC_fiducial_cut_theta_phi(i);
-    //_pim &= Hadron_Delta_vz_cut(i);
-    //_pim &= Hadron_Chi2pid_cut(i);
+  //_pim &= DC_fiducial_cut_theta_phi(i);
+  //_pim &= Hadron_Delta_vz_cut(i);
+  //_pim &= Hadron_Chi2pid_cut(i);
 
-    return _pim;
+  return _pim;
 }
 
 // // bool Cuts::IsmissingPim(int i) {
@@ -219,8 +219,7 @@ bool uconn_Cuts::ElectronCuts() {
 }
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
-  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000)
-        cut &= DC_fiducial_cut_theta_phi(i);
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
   cut &= Hadron_Delta_vz_cut(i);
   cut &= Hadron_Chi2pid_cut(i);
   return cut;
@@ -246,7 +245,6 @@ bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
   double edep_tight = 0.06, edep_medium = 0.07, edep_loose = 0.09;
   return (_data->ec_pcal_energy(0) > edep_medium);
 }
-
 
 bool uconn_Cuts::EC_sampling_fraction_cut() {
   double ecal_e_sampl_mu[3][6] = {{0.2531, 0.2550, 0.2514, 0.2494, 0.2528, 0.2521},
