@@ -68,9 +68,9 @@ void Reaction::SetElec() {
   // // _py_prime_elec,
   // // //   // _pz_prime_elec, MASS_E);
 
-  // _elec_mom = _elec->P();
-  // _elec_E = _elec->E();
-  // _theta_e = _elec->Theta() * 180 / PI;
+  _elec_mom = _elec->P();
+  _elec_E = _elec->E();
+  _theta_e = _elec->Theta() * 180 / PI;
 
   // // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
