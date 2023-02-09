@@ -82,7 +82,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
-    // if (!cuts->ElectronCuts()) continue;
+    if (!cuts->ElectronCuts()) continue;
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
@@ -92,16 +92,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if ((data->beta(part) > 0.0 )) {
-        if(data->pid(part) ==0){
-        csv_data output;
+      if ((data->beta(part) > 0.0)) {
+        if (data->charge(part) > 0) {
+          csv_data output;
 
-        output.pid_part = data->pid(part);
-        output.status_part = data->status(part);
-        output.mom_part = data->p(part);
-        output.beta_part = data->beta(part);
-        _sync->write(output);
-      }
+          output.pid_part = data->pid(part);
+          output.status_part = data->status(part);
+          output.mom_part = data->p(part);
+          output.beta_part = data->beta(part);
+          _sync->write(output);
+        }
       }
       //   // Check particle ID's and fill the reaction class
       //   if (cuts->IsProton(part)) {
