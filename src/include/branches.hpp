@@ -253,6 +253,11 @@ class Branches12 {
   v_float _sc_cnd_hx;
   v_float _sc_cnd_hy;
   v_float _sc_cnd_hz;
+
+  v_float _sc_extras_dedx;
+  v_int _sc_extras_size;
+  v_float _sc_extras_layermult;
+
   v_float _ft_cal_energy;
   v_float _ft_cal_time;
   v_float _ft_cal_path;
@@ -477,6 +482,9 @@ class Branches12 {
   TBranch *b_sc_cnd_hx;             //!
   TBranch *b_sc_cnd_hy;             //!
   TBranch *b_sc_cnd_hz;             //!
+  TBranch *b_sc_extras_dedx;        //!
+  TBranch *b_sc_extras_size;        //!
+  TBranch *b_sc_extras_layermult;   //!
   TBranch *b_ft_cal_energy;         //!
   TBranch *b_ft_cal_time;           //!
   TBranch *b_ft_cal_path;           //!
@@ -700,6 +708,11 @@ class Branches12 {
   float sc_cnd_hx(int i);
   float sc_cnd_hy(int i);
   float sc_cnd_hz(int i);
+
+  float sc_extras_dedx(int i);
+  int sc_extras_size(int i);
+  float sc_extras_layermult(int i);
+
   float ft_cal_energy(int i);
   float ft_cal_time(int i);
   float ft_cal_path(int i);

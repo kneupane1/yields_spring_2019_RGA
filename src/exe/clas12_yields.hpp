@@ -107,9 +107,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           output.cnd_time = data->sc_cnd_time(part);
 
           output.ctof_component = data->sc_ctof_component(part);
-          // output.ctof_energy = data->sc_ctof_energy(part);
-          // output.ctof_path = data->sc_ctof_path(part);
-          // output.ctof_time = data->sc_ctof_time(part);
+          output.extras_dedx = data->sc_extras_dedx(part);
+          output.extras_size = data->sc_extras_size(part);
+          output.extras_layermult = data->sc_extras_layermult(part);
 
           _sync->write(output);
         }

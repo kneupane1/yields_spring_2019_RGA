@@ -35,10 +35,10 @@ struct csv_data {
   float cnd_path;
   int cnd_component;
   float cnd_energy;
-  float ctof_time;
-  float ctof_path;
-  int ctof_component;
-  float ctof_energy;
+  float ctof_component;
+  float extras_dedx;
+  int extras_size;
+  float extras_layermult;
 
   float scalar_product;
   float pim_mom_mPim;
@@ -145,7 +145,8 @@ float chi2pid_pim;
 // Static functions can be called without making a new struct
 static std::string header() {
   // Make a string for the header of the csv file mPim case
-  return "pid_part,status_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,ctof_comp";
+  return "pid_part,status_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,ctof_comp,extras_dedx,extras_"
+         "size,extras_layermult";
   // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
 
   // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
@@ -216,10 +217,10 @@ static std::string header() {
     // os << data.elec_mom << ",";
     // os << data.elec_energy << ",";
     // os << data.elec_theta << ",";
-     os << std::setprecision(5);
+     os << std::setprecision(7);
     os << data.pid_part << ",";
     os << data.status_part << ',';
-    os << std::setprecision(10);
+    // os << std::setprecision(10);
 
     os << data.mom_part << ",";
     os << data.charge_part << ",";
@@ -230,9 +231,9 @@ static std::string header() {
     os << data.cnd_time << ",";
 
     os << data.ctof_component << ",";
-    // os << data.ctof_energy << ",";
-    // os << data.ctof_path << ",";
-    // os << data.ctof_time << ",";
+    os << data.extras_dedx << ",";
+    os << data.extras_size << ",";
+    os << data.extras_layermult << ",";
 
     // // os << data.w_mc << ",";
     // // os << data.q2_mc << ",";
