@@ -92,7 +92,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if ((data->charge(part) > 0) & (data->sc_cnd_component(part) >0)) {
+      if ( (data->sc_cnd_component(part) >0)) {
         if (data->pid(part) == 0) {
           csv_data output;
 
