@@ -85,23 +85,34 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (!cuts->ElectronCuts()) continue;
 
     // Make a reaction class from the data given
-    auto event = std::make_shared<Reaction>(data, beam_energy);
+    // auto event = std::make_shared<Reaction>(data, beam_energy);
     // event->SetMomCorrElec();
 
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      // if ((data->beta(part) > 0.25)) {
+      if ((data->charge(part) > 0) & (data->sc_cnd_component(part) >0)) {
         if (data->pid(part) == 0) {
           csv_data output;
 
           output.pid_part = data->pid(part);
           output.status_part = data->status(part);
           output.mom_part = data->p(part);
-          output.beta_part = data->beta(part);
+          output.charge_part = data->charge(part);
+
+          output.cnd_component = data->sc_cnd_component(part);
+          output.cnd_energy = data->sc_cnd_energy(part);
+          output.cnd_path = data->sc_cnd_path(part);
+          output.cnd_time = data->sc_cnd_time(part);
+
+          output.ctof_component = data->sc_ctof_component(part);
+          // output.ctof_energy = data->sc_ctof_energy(part);
+          // output.ctof_path = data->sc_ctof_path(part);
+          // output.ctof_time = data->sc_ctof_time(part);
+
           _sync->write(output);
-        // }
+        }
       }
       //   // Check particle ID's and fill the reaction class
       //   if (cuts->IsProton(part)) {
