@@ -219,7 +219,7 @@ static std::string header() {
     // os << data.elec_theta << ",";
      os << std::setprecision(7);
     os << data.pid_part << ",";
-    os << data.status_part << ',';
+    os << data.beta_part << ',';
     // os << std::setprecision(10);
 
     os << data.mom_part << ",";

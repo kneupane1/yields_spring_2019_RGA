@@ -97,7 +97,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           csv_data output;
 
           output.pid_part = data->pid(part);
-          output.status_part = data->status(part);
+          output.beta_part = data->beta(part);
           output.mom_part = data->p(part);
           output.charge_part = data->charge(part);
 
