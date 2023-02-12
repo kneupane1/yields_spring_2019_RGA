@@ -113,7 +113,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           // output.extras_layermult = data->sc_extras_layermult(part);
 
           _sync->write(output);
-        // }
+        }
         }
       //   // Check particle ID's and fill the reaction class
       //   if (cuts->IsProton(part)) {
