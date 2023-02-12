@@ -28,6 +28,7 @@ struct csv_data {
 
   float corr_elec_mom;
   float mom_part;
+  float beta_part;
   float charge_part;
   float pid_part;
   int status_part;
