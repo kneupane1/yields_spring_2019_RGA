@@ -92,7 +92,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if ( (data->sc_cnd_component(part) >0)) {
+      if ((data->charge(part) > 0) & (data->sc_cnd_layer(part) > 0)) {
         if (data->pid(part) == 0) {
           csv_data output;
 
@@ -105,11 +105,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           output.cnd_energy = data->sc_cnd_energy(part);
           output.cnd_path = data->sc_cnd_path(part);
           output.cnd_time = data->sc_cnd_time(part);
+          output.cnd_layer = data->sc_cnd_layer(part);
 
           output.ctof_component = data->sc_ctof_component(part);
           output.extras_dedx = data->sc_extras_dedx(part);
-          output.extras_size = data->sc_extras_size(part);
-          output.extras_layermult = data->sc_extras_layermult(part);
+          // output.extras_size = data->sc_extras_size(part);
+          // output.extras_layermult = data->sc_extras_layermult(part);
 
           _sync->write(output);
         }

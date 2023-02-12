@@ -253,6 +253,7 @@ class Branches12 {
   v_float _sc_cnd_hx;
   v_float _sc_cnd_hy;
   v_float _sc_cnd_hz;
+  v_int _sc_cnd_layer;
 
   v_float _sc_extras_dedx;
   v_int _sc_extras_size;
@@ -482,6 +483,7 @@ class Branches12 {
   TBranch *b_sc_cnd_hx;             //!
   TBranch *b_sc_cnd_hy;             //!
   TBranch *b_sc_cnd_hz;             //!
+  TBranch *b_sc_cnd_layer;          //!
   TBranch *b_sc_extras_dedx;        //!
   TBranch *b_sc_extras_size;        //!
   TBranch *b_sc_extras_layermult;   //!
@@ -708,6 +710,7 @@ class Branches12 {
   float sc_cnd_hx(int i);
   float sc_cnd_hy(int i);
   float sc_cnd_hz(int i);
+  int sc_cnd_layer(int i);
 
   float sc_extras_dedx(int i);
   int sc_extras_size(int i);

@@ -204,6 +204,7 @@ void Branches12::init() {
   _sc_cnd_hx = 0;
   _sc_cnd_hy = 0;
   _sc_cnd_hz = 0;
+  _sc_cnd_layer = 0;
 
   _sc_extras_dedx = 0;
   _sc_extras_size = 0;
@@ -430,12 +431,14 @@ void Branches12::init() {
   _tree->SetBranchAddress("sc_cnd_path", &_sc_cnd_path, &b_sc_cnd_path);
   _tree->SetBranchAddress("sc_cnd_energy", &_sc_cnd_energy, &b_sc_cnd_energy);
   _tree->SetBranchAddress("sc_cnd_component", &_sc_cnd_component, &b_sc_cnd_component);
+
   // _tree->SetBranchAddress("sc_cnd_x", &_sc_cnd_x, &b_sc_cnd_x);
   // _tree->SetBranchAddress("sc_cnd_y", &_sc_cnd_y, &b_sc_cnd_y);
   // _tree->SetBranchAddress("sc_cnd_z", &_sc_cnd_z, &b_sc_cnd_z);
   // _tree->SetBranchAddress("sc_cnd_hx", &_sc_cnd_hx, &b_sc_cnd_hx);
   // _tree->SetBranchAddress("sc_cnd_hy", &_sc_cnd_hy, &b_sc_cnd_hy);
   // _tree->SetBranchAddress("sc_cnd_hz", &_sc_cnd_hz, &b_sc_cnd_hz);
+  _tree->SetBranchAddress("sc_cnd_layer", &_sc_cnd_layer, &b_sc_cnd_layer);
 
   _tree->SetBranchAddress("sc_extras_dedx", &_sc_extras_dedx, &b_sc_extras_dedx);
   _tree->SetBranchAddress("sc_extras_size", &_sc_extras_size, &b_sc_extras_size);
@@ -1366,6 +1369,7 @@ float Branches12::sc_cnd_z(int i) { return _sc_cnd_z->at(i); }
 float Branches12::sc_cnd_hx(int i) { return _sc_cnd_hx->at(i); }
 float Branches12::sc_cnd_hy(int i) { return _sc_cnd_hy->at(i); }
 float Branches12::sc_cnd_hz(int i) { return _sc_cnd_hz->at(i); }
+int Branches12::sc_cnd_layer(int i) { return _sc_cnd_layer->at(i); }
 
 float Branches12::sc_extras_dedx(int i) { return _sc_extras_dedx->at(i); }
 int Branches12::sc_extras_size(int i) { return _sc_extras_size->at(i); }
