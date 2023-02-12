@@ -229,9 +229,9 @@ static std::string header() {
     os << data.cnd_energy << ",";
     os << data.cnd_path << ",";
     os << data.cnd_time << ",";
+    os << data.cnd_layer << ",";
 
     os << data.ctof_component << ",";
-    os << data.cnd_layer << ",";
 
     os << data.extras_dedx << ",";
 

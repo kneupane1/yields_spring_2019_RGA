@@ -92,8 +92,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if ((data->charge(part) > 0) & (data->sc_cnd_layer(part) > 0)) {
-        if (data->pid(part) == 0) {
+      if ((data->charge(part) > 0)) {
+        // if (data->pid(part) != 0) {
           csv_data output;
 
           output.pid_part = data->pid(part);
@@ -113,7 +113,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           // output.extras_layermult = data->sc_extras_layermult(part);
 
           _sync->write(output);
-        }
+        // }
       }
       //   // Check particle ID's and fill the reaction class
       //   if (cuts->IsProton(part)) {
