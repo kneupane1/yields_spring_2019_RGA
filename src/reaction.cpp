@@ -870,10 +870,10 @@ float Reaction::pip_Phi_lab() {
     return NAN;
 }
 float Reaction::pip_momentum_measured() {
-  // if (TwoPion_exclusive())
+  if (TwoPion_exclusive())
   return _pip->P();
-  // else
-  //   return NAN;
+  else
+    return NAN;
 }
 
 float Reaction::pip_theta_lab_measured() {
@@ -962,10 +962,10 @@ float Reaction::prot_Phi_lab() {
     return NAN;
 }
 float Reaction::prot_momentum_measured() {
-  // if (TwoPion_exclusive())
+  if (TwoPion_exclusive())
   return _prot->P();
-  // else
-  //   return NAN;
+  else
+    return NAN;
 }
 
 float Reaction::prot_theta_lab_measured() {

@@ -92,55 +92,49 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if (data->pid(part) == 0) {
-        if (data->sc_cnd_layer(part) == 3) {
-          csv_data output;
-
-          //   // Check particle ID's and fill the reaction class
-          if (cuts->IsProton(part)) {
-            // if (cuts->HadronsCuts(part)) {
-            event->SetProton(part);
-            // statusProt = abs(data->status(part));
-            // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
-            // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-            // data->pz(part)
-            //           << "_prot E : " << MASS_P << std::endl;
-          // }
-        } else if (cuts->IsPip(part)) {
-          // if (cuts->HadronsCuts(part)) {
-          event->SetPip(part);
-          // statusPip = abs(data->status(part));
-          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-        }
-        //   } else if (cuts->IsPim(part)) {
-        //     if (cuts->HadronsCuts(part)) {
-        //       event->SetPim(part);
-        //       statusPim = abs(data->status(part));
-        //       // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
-        //     }
-        //   } else {
-        //     event->SetOther(part);
-        }
+      //   // Check particle ID's and fill the reaction class
+      if (cuts->IsProton(part)) {
+        // if (cuts->HadronsCuts(part)) {
+        event->SetProton(part);
+        // statusProt = abs(data->status(part));
+        // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+        // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+        // data->pz(part)
+        //           << "_prot E : " << MASS_P << std::endl;
+        // }
+      } else if (cuts->IsPip(part)) {
+        // if (cuts->HadronsCuts(part)) {
+        event->SetPip(part);
+        // statusPip = abs(data->status(part));
+        // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+      } else if (cuts->IsPim(part)) {
+        // if (cuts->HadronsCuts(part)) {
+        event->SetPim(part);
+        // statusPim = abs(data->status(part));
+        // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
+        // } else {
+        //   event->SetOther(part);
       }
-
-      // output.pid_part = data->pid(part);
-      // output.beta_part = data->beta(part);
-      // output.mom_part = data->p(part);
-      // output.charge_part = data->charge(part);
-
-      // output.cnd_component = data->sc_cnd_component(part);
-      // output.cnd_energy = data->sc_cnd_energy(part);
-      // output.cnd_path = data->sc_cnd_path(part);
-      // output.cnd_time = data->sc_cnd_time(part);
-      // output.cnd_layer = data->sc_cnd_layer(part);
-
-      // output.ctof_component = data->sc_ctof_component(part);
-      // output.extras_dedx = data->sc_extras_dedx(part);
-      // // output.extras_size = data->sc_extras_size(part);
-      // // output.extras_layermult = data->sc_extras_layermult(part);
-
-      // _sync->write(output);
     }
+
+    // output.pid_part = data->pid(part);
+    // output.beta_part = data->beta(part);
+    // output.mom_part = data->p(part);
+    // output.charge_part = data->charge(part);
+
+    // output.cnd_component = data->sc_cnd_component(part);
+    // output.cnd_energy = data->sc_cnd_energy(part);
+    // output.cnd_path = data->sc_cnd_path(part);
+    // output.cnd_time = data->sc_cnd_time(part);
+    // output.cnd_layer = data->sc_cnd_layer(part);
+
+    // output.ctof_component = data->sc_ctof_component(part);
+    // output.extras_dedx = data->sc_extras_dedx(part);
+    // // output.extras_size = data->sc_extras_size(part);
+    // // output.extras_layermult = data->sc_extras_layermult(part);
+
+    // _sync->write(output);
+    // }
     // }
 
     // // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
@@ -148,21 +142,28 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // // if (event->TwoPion_missingPim()) {
     // // if (event->TwoPion_missingPip()) {
     // // if (event->TwoPion_missingProt()) {
-    // if (event->TwoPion_exclusive()) {
-    //   // if (event->Inclusive()) {
-    //   // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
-    //   // &&
-    //   // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
-    //   // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
-    //   //   //&&
-    if (abs(event->MM2()) < 1.0 && ((event->pip_momentum_measured() > 0) || (event->prot_momentum_measured()>0))) {
+    if (event->TwoPion_exclusive()) {
+      //   // if (event->Inclusive()) {
+      //   // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
+      //   // &&
+      //   // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
+      //   // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
+      //   //   //&&
+      // if (abs(event->MM2()) < 1.0 && ((event->pip_momentum_measured() > 0) || (event->prot_momentum_measured() > 0)))
+      // {
       //   //   // total++;
       csv_data output;
+
+      output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      output.energy_x_mu = event->Energy_excl();
       output.mm2_mPim = event->MM2();
-      output.pip_mom_exclusive = event->pip_momentum_measured();
-      output.extras_dedx_pip = event->pip_dedx();
+      output.mm2_mPip = event->MM2_mPip();
+      output.mm2_mProt = event->MM2_mProt();
+      // output.pip_mom_exclusive = event->pip_momentum_measured();
+      // output.extras_dedx_pip = event->pip_dedx();
       output.prot_mom_exclusive = event->prot_momentum_measured();
       output.extras_dedx_prot = event->prot_dedx();
+      output.prot_mom_mProt = event->prot_momentum();
 
       //   // // //// using exclusive topology ...................................
 
