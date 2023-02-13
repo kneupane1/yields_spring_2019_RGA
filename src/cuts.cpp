@@ -146,7 +146,8 @@ bool Cuts::IsProton(int i) {
   if (_data->gpart() <= i) return false;
   bool _proton = true;
     _proton &= (_data->charge(i) == POSITIVE);
-    _proton &= ((_data->p(i) > 0.5) && (_data->sc_extras_dedx(i) > (-3.43 * (_data->p(i)) + 5.8)));
+    _proton &= (_data->p(i) > 0.5);
+    _proton &= (_data->sc_extras_dedx(i) > (-3.43 * (_data->p(i)) + 5.8));
 
     /*
     //   _proton &= (_data->charge(i) == POSITIVE);
