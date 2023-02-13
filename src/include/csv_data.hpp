@@ -42,6 +42,9 @@ struct csv_data {
   int extras_size;
   float extras_layermult;
 
+  float extras_dedx_pip;
+  float extras_dedx_prot; //////////
+
   float scalar_product;
   float pim_mom_mPim;
   float pim_theta_mPim;
@@ -147,7 +150,8 @@ float chi2pid_pim;
 // Static functions can be called without making a new struct
 static std::string header() {
   // Make a string for the header of the csv file mPim case
-  return "pid_part,beta_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,cnd_layer,ctof_comp,extras_dedx";
+  return "mm2_mPim,mom_pip,dedx_pip,mom_prot,dedx_prot,";
+  // return "pid_part,beta_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,cnd_layer,ctof_comp,extras_dedx";
   // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
 
   // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
@@ -204,37 +208,42 @@ static std::string header() {
     // os << data.prot_sec << ",";
 
     // os << std::setprecision(7);
+    os << data.mm2_mPim << ",";
+    os << data.pip_mom_exclusive << ",";
+    os << data.extras_dedx_pip << ",";
+    os << data.prot_mom_exclusive << ",";
+    os << data.extras_dedx_prot << ",";
 
     // os << data.w << ",";
     // os << data.q2 << ",";
     // // // // os << data.w_after << ",";
 
-    // // // os << data.w_had << ",";
-    // // // // // os << data.w_diff << ",";
-    // // // // os << data.w_had_corr << ",";
-    // // // // // os << data.w_diff_corr << ",";
+    // // // // os << data.w_had << ",";
+    // // // // // // os << data.w_diff << ",";
+    // // // // // os << data.w_had_corr << ",";
+    // // // // // // os << data.w_diff_corr << ",";
 
-    // // // // // os << data.w_after << ",";
-    // os << data.elec_mom << ",";
-    // os << data.elec_energy << ",";
-    // os << data.elec_theta << ",";
-     os << std::setprecision(7);
-    os << data.pid_part << ",";
-    os << data.beta_part << ',';
-    // os << std::setprecision(10);
+    // // // // // // os << data.w_after << ",";
+    // // os << data.elec_mom << ",";
+    // // os << data.elec_energy << ",";
+    // // os << data.elec_theta << ",";
+    //  os << std::setprecision(7);
+    // os << data.pid_part << ",";
+    // os << data.beta_part << ',';
+    // // os << std::setprecision(10);
 
-    os << data.mom_part << ",";
-    os << data.charge_part << ",";
+    // os << data.mom_part << ",";
+    // os << data.charge_part << ",";
 
-    os << data.cnd_component << ",";
-    os << data.cnd_energy << ",";
-    os << data.cnd_path << ",";
-    os << data.cnd_time << ",";
-    os << data.cnd_layer << ",";
+    // os << data.cnd_component << ",";
+    // os << data.cnd_energy << ",";
+    // os << data.cnd_path << ",";
+    // os << data.cnd_time << ",";
+    // os << data.cnd_layer << ",";
 
-    os << data.ctof_component << ",";
+    // os << data.ctof_component << ",";
 
-    os << data.extras_dedx << ",";
+    // os << data.extras_dedx << ",";
 
     // os << data.extras_size << ",";
     // os << data.extras_layermult << ",";

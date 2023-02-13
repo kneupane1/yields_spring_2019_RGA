@@ -566,6 +566,9 @@ class Reaction {
       -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
   };
 
+  float _dedx_pip;
+  float _dedx_prot;
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -684,6 +687,10 @@ class Reaction {
   float prot_momentum_measured();
   float prot_theta_lab_measured();
   float prot_Phi_lab_measured();
+
+//test
+  inline float pip_dedx(){return _dedx_pip;}
+  inline float prot_dedx(){return _dedx_prot;}
 
   void boost();
 

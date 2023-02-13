@@ -85,7 +85,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (!cuts->ElectronCuts()) continue;
 
     // Make a reaction class from the data given
-    // auto event = std::make_shared<Reaction>(data, beam_energy);
+    auto event = std::make_shared<Reaction>(data, beam_energy);
     // event->SetMomCorrElec();
 
     // // For each particle in the event
@@ -93,54 +93,55 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       dt->dt_calc(part);
 
       if ((data->charge(part) > 0)) {
-        if (data->sc_cnd_layer(part) >= 0) {
+        if (data->sc_cnd_layer(part) == 3) {
           csv_data output;
 
-          output.pid_part = data->pid(part);
-          output.beta_part = data->beta(part);
-          output.mom_part = data->p(part);
-          output.charge_part = data->charge(part);
-
-          output.cnd_component = data->sc_cnd_component(part);
-          output.cnd_energy = data->sc_cnd_energy(part);
-          output.cnd_path = data->sc_cnd_path(part);
-          output.cnd_time = data->sc_cnd_time(part);
-          output.cnd_layer = data->sc_cnd_layer(part);
-
-          output.ctof_component = data->sc_ctof_component(part);
-          output.extras_dedx = data->sc_extras_dedx(part);
-          // output.extras_size = data->sc_extras_size(part);
-          // output.extras_layermult = data->sc_extras_layermult(part);
-
-          _sync->write(output);
+          //   // Check particle ID's and fill the reaction class
+          if (cuts->IsProton(part)) {
+            // if (cuts->HadronsCuts(part)) {
+            event->SetProton(part);
+            // statusProt = abs(data->status(part));
+            // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+            // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+            // data->pz(part)
+            //           << "_prot E : " << MASS_P << std::endl;
+          }
+        } else if (cuts->IsPip(part)) {
+          // if (cuts->HadronsCuts(part)) {
+          event->SetPip(part);
+          // statusPip = abs(data->status(part));
+          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
-        }
-      //   // Check particle ID's and fill the reaction class
-      //   if (cuts->IsProton(part)) {
-      //     if (cuts->HadronsCuts(part)) {
-      //       event->SetProton(part);
-      //       statusProt = abs(data->status(part));
-      //       // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
-      //       // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-      //       // data->pz(part)
-      //       //           << "_prot E : " << MASS_P << std::endl;
-      //     }
-      //   } else if (cuts->IsPip(part)) {
-      //     if (cuts->HadronsCuts(part)) {
-      //       event->SetPip(part);
-      //       statusPip = abs(data->status(part));
-      //       // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-      //     }
-      //   } else if (cuts->IsPim(part)) {
-      //     if (cuts->HadronsCuts(part)) {
-      //       event->SetPim(part);
-      //       statusPim = abs(data->status(part));
-      //       // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
-      //     }
-      //   } else {
-      //     event->SetOther(part);
-      //   }
+        //   } else if (cuts->IsPim(part)) {
+        //     if (cuts->HadronsCuts(part)) {
+        //       event->SetPim(part);
+        //       statusPim = abs(data->status(part));
+        //       // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
+        //     }
+        //   } else {
+        //     event->SetOther(part);
+        // }
+      }
+
+      // output.pid_part = data->pid(part);
+      // output.beta_part = data->beta(part);
+      // output.mom_part = data->p(part);
+      // output.charge_part = data->charge(part);
+
+      // output.cnd_component = data->sc_cnd_component(part);
+      // output.cnd_energy = data->sc_cnd_energy(part);
+      // output.cnd_path = data->sc_cnd_path(part);
+      // output.cnd_time = data->sc_cnd_time(part);
+      // output.cnd_layer = data->sc_cnd_layer(part);
+
+      // output.ctof_component = data->sc_ctof_component(part);
+      // output.extras_dedx = data->sc_extras_dedx(part);
+      // // output.extras_size = data->sc_extras_size(part);
+      // // output.extras_layermult = data->sc_extras_layermult(part);
+
+      // _sync->write(output);
     }
+    // }
 
     // // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     // //     event->TwoPion_exclusive()) {
@@ -154,303 +155,308 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     //   // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
     //   // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
     //   //   //&&
-    //   //   // abs(event->MM2_exclusive()) < 0.03) {
-    //   //   // total++;
-    //   csv_data output;
+    if (abs(event->MM2()) < 1.0 && ((event->pip_momentum_measured() > 0) || (event->prot_momentum_measured()>0))) {
+      //   //   // total++;
+      csv_data output;
+      output.mm2_mPim = event->MM2();
+      output.pip_mom_exclusive = event->pip_momentum_measured();
+      output.extras_dedx_pip = event->pip_dedx();
+      output.prot_mom_exclusive = event->prot_momentum_measured();
+      output.extras_dedx_prot = event->prot_dedx();
 
-    //   // // //// using exclusive topology ...................................
+      //   // // //// using exclusive topology ...................................
 
-    //   // output.electron_sector = event->sec();
-    //   output.pim_sec = event->pimSec();
-    //   output.pip_sec = event->pipSec();
-    //   output.prot_sec = event->protSec();
-    //   // output.w = event->W();
-    //   // output.q2 = event->Q2();
-    //   // output.w_had = event->w_hadron();
-    //   // // output.w_diff = event->w_difference();
-    //   // output.w_had_corr = event->w_hadron_corr();
-    //   // // output.w_diff_corr = event->w_difference_corr();
+      //   // output.electron_sector = event->sec();
+      //   output.pim_sec = event->pimSec();
+      //   output.pip_sec = event->pipSec();
+      //   output.prot_sec = event->protSec();
+      // output.w = event->W();
+      // output.q2 = event->Q2();
+      //   // output.w_had = event->w_hadron();
+      //   // // output.w_diff = event->w_difference();
+      //   // output.w_had_corr = event->w_hadron_corr();
+      //   // // output.w_diff_corr = event->w_difference_corr();
 
-    //   // output.elec_mom = event->elec_mom();
-    //   // output.elec_energy = event->elec_En();
-    //   // output.elec_theta = event->Theta_Elec();
-    //   // output.corr_elec_mom = event->Corr_elec_mom();
-    //   // output.scalar_product = event->scalar_triple_product();
+      //   // output.elec_mom = event->elec_mom();
+      //   // output.elec_energy = event->elec_En();
+      //   // output.elec_theta = event->Theta_Elec();
+      //   // output.corr_elec_mom = event->Corr_elec_mom();
+      //   // output.scalar_product = event->scalar_triple_product();
 
-    //   // // //   // // for generated case
-    //   //   output.w_mc = mc_event->W_mc();
-    //   //   output.q2_mc = mc_event->Q2_mc();
+      //   // // //   // // for generated case
+      //   //   output.w_mc = mc_event->W_mc();
+      //   //   output.q2_mc = mc_event->Q2_mc();
 
-    //   //   output.elec_mom_mc = mc_event->elec_mom_mc();
-    //   //   output.elec_energy_mc = mc_event->elec_En_mc();
-    //   //   output.elec_theta_mc = mc_event->Theta_Elec_mc();
-    //   //   output.weight_exclusive = mc_event->weight();
+      //   //   output.elec_mom_mc = mc_event->elec_mom_mc();
+      //   //   output.elec_energy_mc = mc_event->elec_En_mc();
+      //   //   output.elec_theta_mc = mc_event->Theta_Elec_mc();
+      //   //   output.weight_exclusive = mc_event->weight();
 
-    //   //   // // for energy loss corrections : gen
-    //   // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
-    //   // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
-    //   // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
+      //   //   // // for energy loss corrections : gen
+      //   // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
+      //   // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
+      //   // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
 
-    //   // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
-    //   // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
-    //   // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
+      //   // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
+      //   // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
+      //   // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
 
-    //   // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
-    //   // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
-    //   // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
+      //   // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
+      //   // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
+      //   // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-    //   // // // // missing
-    //   output.prot_mom_mProt = event->prot_momentum();
-    //   output.prot_theta_mProt = event->prot_theta_lab();
-    //   output.prot_phi_mProt = event->prot_Phi_lab();
+      //   // // // // missing
+      //   output.prot_mom_mProt = event->prot_momentum();
+      //   output.prot_theta_mProt = event->prot_theta_lab();
+      //   output.prot_phi_mProt = event->prot_Phi_lab();
 
-    //   output.pip_mom_mPip = event->pip_momentum();
-    //   output.pip_theta_mPip = event->pip_theta_lab();
-    //   output.pip_phi_mPip = event->pip_Phi_lab();
+      //   output.pip_mom_mPip = event->pip_momentum();
+      //   output.pip_theta_mPip = event->pip_theta_lab();
+      //   output.pip_phi_mPip = event->pip_Phi_lab();
 
-    //   output.pim_mom_mPim = event->pim_momentum();
-    //   output.pim_theta_mPim = event->pim_theta_lab();
-    //   output.pim_phi_mPim = event->pim_Phi_lab();
+      //   output.pim_mom_mPim = event->pim_momentum();
+      //   output.pim_theta_mPim = event->pim_theta_lab();
+      //   output.pim_phi_mPim = event->pim_Phi_lab();
 
-    //   // // // recon mes
-    //   // output.prot_mom_exclusive = event->prot_momentum_corrected();
-    //   // output.prot_theta_exclusive = event->prot_theta_corrected();
-    //   // output.prot_phi_exclusive = event->prot_Phi_corrected();
-    //   output.prot_mom_exclusive = event->prot_momentum_measured();
-    //   output.prot_theta_exclusive = event->prot_theta_lab_measured();
-    //   output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-    //   output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+      //   // // // recon mes
+      //   // output.prot_mom_exclusive = event->prot_momentum_corrected();
+      //   // output.prot_theta_exclusive = event->prot_theta_corrected();
+      //   // output.prot_phi_exclusive = event->prot_Phi_corrected();
+      //   output.prot_mom_exclusive = event->prot_momentum_measured();
+      //   output.prot_theta_exclusive = event->prot_theta_lab_measured();
+      //   output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+      //   output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
-    //   output.prot_mom_corr = event->prot_momentum_corrected();
-    //   // // output.prot_theta_corr = event->prot_theta_corrected();
-    //   // // output.prot_phi_corr = event->prot_Phi_corrected();
+      //   output.prot_mom_corr = event->prot_momentum_corrected();
+      //   // // output.prot_theta_corr = event->prot_theta_corrected();
+      //   // // output.prot_phi_corr = event->prot_Phi_corrected();
 
-    //   output.pip_mom_exclusive = event->pip_momentum_measured();
-    //   output.pip_theta_exclusive = event->pip_theta_lab_measured();
-    //   output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-    //   output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+      //   output.pip_mom_exclusive = event->pip_momentum_measured();
+      //   output.pip_theta_exclusive = event->pip_theta_lab_measured();
+      //   output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+      //   output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
-    //   output.pip_mom_corr = event->pip_momentum_corrected();
-    //   // // output.pip_theta_corr = event->pip_theta_corrected();
-    //   // // output.pip_phi_corr = event->pip_Phi_corrected();
+      //   output.pip_mom_corr = event->pip_momentum_corrected();
+      //   // // output.pip_theta_corr = event->pip_theta_corrected();
+      //   // // output.pip_phi_corr = event->pip_Phi_corrected();
 
-    //   output.pim_mom_exclusive = event->pim_momentum_measured();
-    //   output.pim_theta_exclusive = event->pim_theta_lab_measured();
-    //   output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-    //   output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+      //   output.pim_mom_exclusive = event->pim_momentum_measured();
+      //   output.pim_theta_exclusive = event->pim_theta_lab_measured();
+      //   output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+      //   output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
-    //   output.pim_mom_corr = event->pim_momentum_corrected();
-    //   // // output.pim_theta_corr = event->pim_theta_corrected();
-    //   // // output.pim_phi_corr = event->pim_Phi_corrected();
+      //   output.pim_mom_corr = event->pim_momentum_corrected();
+      //   // // output.pim_theta_corr = event->pim_theta_corrected();
+      //   // // output.pim_phi_corr = event->pim_Phi_corrected();
 
-    //   output.mm2_mProt = event->MM2_mProt();
-    //   output.mm2_mProt_corr = event->MM2_mProt_corr();
-    //   output.mm2_mPip = event->MM2_mPip();
-    //   output.mm2_mPip_corr = event->MM2_mPip_corr();
-    //   output.mm2_mPim = event->MM2();
-    //   output.mm2_mPim_corr = event->MM2_mPim_corr();
+      //   output.mm2_mProt = event->MM2_mProt();
+      //   output.mm2_mProt_corr = event->MM2_mProt_corr();
+      //   output.mm2_mPip = event->MM2_mPip();
+      //   output.mm2_mPip_corr = event->MM2_mPip_corr();
+      // output.mm2_mPim = event->MM2();
+      //   output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-    //   output.mm2_exclusive_at_zero = event->MM2_exclusive();
-    //   output.energy_x_mu = event->Energy_excl();
+      //   output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      //   output.energy_x_mu = event->Energy_excl();
 
-    //   output.inv_ppip = event->inv_Ppip();
-    //   output.inv_ppim = event->inv_Ppim();
-    //   output.inv_pip_pim = event->inv_Pippim();
+      //   output.inv_ppip = event->inv_Ppip();
+      //   output.inv_ppim = event->inv_Ppim();
+      //   output.inv_pip_pim = event->inv_Pippim();
 
-    //   output.status_Pim = statusPim;
-    //   output.status_Pip = statusPip;
-    //   output.status_Prot = statusProt;
+      //   output.status_Pim = statusPim;
+      //   output.status_Pip = statusPip;
+      //   output.status_Prot = statusProt;
 
-    //   output.chi2pid_e = event->chi2pid_Elec();
-    //   output.chi2pid_p = event->chi2pid_Prot();
-    //   output.chi2pid_pip = event->chi2pid_Pip();
-    //   output.chi2pid_pim = event->chi2pid_Pim();
+      //   output.chi2pid_e = event->chi2pid_Elec();
+      //   output.chi2pid_p = event->chi2pid_Prot();
+      //   output.chi2pid_pip = event->chi2pid_Pip();
+      //   output.chi2pid_pim = event->chi2pid_Pim();
 
-    //   output.weight_exclusive = event->weight();
+      //   output.weight_exclusive = event->weight();
 
-    //   // /// ..........................................
+      //   // /// ..........................................
 
-    //   // //   // // for mom correction pim
-    //   // //   // output.pim_mom_mPim = event->pim_momentum();
-    //   // //   // output.pim_mom_exclusive = event->pim_momentum_measured();
-    //   // //   // output.pim_mom_corr = event->pim_momentum_corrected();
+      //   // //   // // for mom correction pim
+      //   // //   // output.pim_mom_mPim = event->pim_momentum();
+      //   // //   // output.pim_mom_exclusive = event->pim_momentum_measured();
+      //   // //   // output.pim_mom_corr = event->pim_momentum_corrected();
 
-    //   // //   // output.pim_theta_mPim = event->pim_theta_lab();
-    //   // //   // output.pim_theta_exclusive = event->pim_theta_lab_measured();
-    //   // //   // output.pim_theta_corr = event->pim_theta_corrected();
+      //   // //   // output.pim_theta_mPim = event->pim_theta_lab();
+      //   // //   // output.pim_theta_exclusive = event->pim_theta_lab_measured();
+      //   // //   // output.pim_theta_corr = event->pim_theta_corrected();
 
-    //   // //   // output.pim_phi_mPim = event->pim_Phi_lab();
-    //   // //   // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-    //   // //   // output.pim_phi_corr = event->pim_Phi_corrected();
+      //   // //   // output.pim_phi_mPim = event->pim_Phi_lab();
+      //   // //   // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+      //   // //   // output.pim_phi_corr = event->pim_Phi_corrected();
 
-    //   // //   // // for mom correction pip
-    //   // //   // output.pip_mom_mPip = event->pip_momentum();
-    //   // //   // output.pip_mom_exclusive = event->pip_momentum_measured();
-    //   // //   // output.pip_mom_corr = event->pip_momentum_corrected();
+      //   // //   // // for mom correction pip
+      //   // //   // output.pip_mom_mPip = event->pip_momentum();
+      //   // //   // output.pip_mom_exclusive = event->pip_momentum_measured();
+      //   // //   // output.pip_mom_corr = event->pip_momentum_corrected();
 
-    //   // //   // output.pip_theta_mPip = event->pip_theta_lab();
-    //   // //   // output.pip_theta_exclusive = event->pip_theta_lab_measured();
-    //   // //   // output.pip_theta_corr = event->pip_theta_corrected();
+      //   // //   // output.pip_theta_mPip = event->pip_theta_lab();
+      //   // //   // output.pip_theta_exclusive = event->pip_theta_lab_measured();
+      //   // //   // output.pip_theta_corr = event->pip_theta_corrected();
 
-    //   // //   // output.pip_phi_mPip = event->pip_Phi_lab();
-    //   // //   // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-    //   // //   // output.pip_phi_corr = event->pip_Phi_corrected();
+      //   // //   // output.pip_phi_mPip = event->pip_Phi_lab();
+      //   // //   // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+      //   // //   // output.pip_phi_corr = event->pip_Phi_corrected();
 
-    //   // //   // // for mom correction prot
-    //   // //   // output.prot_mom_mProt = event->prot_momentum();
-    //   // //   // output.prot_mom_exclusive = event->prot_momentum_measured();
-    //   // //   // output.prot_mom_corr = event->prot_momentum_corrected();
+      //   // //   // // for mom correction prot
+      //   // //   // output.prot_mom_mProt = event->prot_momentum();
+      //   // //   // output.prot_mom_exclusive = event->prot_momentum_measured();
+      //   // //   // output.prot_mom_corr = event->prot_momentum_corrected();
 
-    //   // //   // output.prot_theta_mProt = event->prot_theta_lab();
-    //   // //   // output.prot_theta_exclusive = event->prot_theta_lab_measured();
-    //   // //   // output.prot_theta_corr = event->prot_theta_corrected();
+      //   // //   // output.prot_theta_mProt = event->prot_theta_lab();
+      //   // //   // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+      //   // //   // output.prot_theta_corr = event->prot_theta_corrected();
 
-    //   // //   // output.prot_phi_mProt = event->prot_Phi_lab();
-    //   // //   // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-    //   // //   // output.prot_phi_corr = event->prot_Phi_corrected();
+      //   // //   // output.prot_phi_mProt = event->prot_Phi_lab();
+      //   // //   // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+      //   // //   // output.prot_phi_corr = event->prot_Phi_corrected();
 
-    //   // //   // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-    //   // //   // output.energy_x_mu = event->Energy_excl();
-    //   // //   // output.weight_exclusive = event->weight();
+      //   // //   // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      //   // //   // output.energy_x_mu = event->Energy_excl();
+      //   // //   // output.weight_exclusive = event->weight();
 
-    //   // // // // // // // // // mPim .......................................
+      //   // // // // // // // // // mPim .......................................
 
-    //   // output.pim_mom_mPim = event->pim_momentum();
-    //   // output.pim_theta_mPim = event->pim_theta_lab();
-    //   // output.pim_phi_mPim = event->pim_Phi_lab();
-    //   // output.mm2_mPim = event->MM2();
-    //   // // output.mm2_mPim_corr = event->MM2_mPim_corr();
-    //   // output.weight_mPim = event->weight();
+      //   // output.pim_mom_mPim = event->pim_momentum();
+      //   // output.pim_theta_mPim = event->pim_theta_lab();
+      //   // output.pim_phi_mPim = event->pim_Phi_lab();
+      //   // output.mm2_mPim = event->MM2();
+      //   // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+      //   // output.weight_mPim = event->weight();
 
-    //   // // // // // for rec pim
-    //   // // // // // output.elec_mom = event->elec_mom();
-    //   // // // // // output.corr_elec_mom = event->Corr_elec_mom();
+      //   // // // // // for rec pim
+      //   // // // // // output.elec_mom = event->elec_mom();
+      //   // // // // // output.corr_elec_mom = event->Corr_elec_mom();
 
-    //   // // output.prot_mom_mProt = event->prot_momentum();
-    //   // // output.prot_theta_mProt = event->prot_theta_lab();
-    //   // // output.prot_phi_mProt = event->prot_Phi_lab();
-    //   // // output.mm2_mProt = event->MM2();
+      //   // // output.prot_mom_mProt = event->prot_momentum();
+      //   // // output.prot_theta_mProt = event->prot_theta_lab();
+      //   // // output.prot_phi_mProt = event->prot_Phi_lab();
+      //   // // output.mm2_mProt = event->MM2();
 
-    //   // // // // for mes prot
-    //   // output.scalar_product = event->scalar_triple_product();
-    //   // output.prot_mom_exclusive = event->prot_momentum_measured();
-    //   // output.prot_theta_exclusive = event->prot_theta_lab_measured();
-    //   // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-    //   // output.mm2_exclusive = event->MM2();
-    //   // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-    //   // output.energy_x_mu = event->Energy_excl();
-    //   // // output.mm2_mPip = event->MM2_mPip();
-    //   // // output.mm2_mProt = event->MM2_mProt();
+      //   // // // // for mes prot
+      //   // output.scalar_product = event->scalar_triple_product();
+      //   // output.prot_mom_exclusive = event->prot_momentum_measured();
+      //   // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+      //   // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+      //   // output.mm2_exclusive = event->MM2();
+      //   // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      //   // output.energy_x_mu = event->Energy_excl();
+      //   // // output.mm2_mPip = event->MM2_mPip();
+      //   // // output.mm2_mProt = event->MM2_mProt();
 
-    //   // // // output.diff_ex_theta = event->Diff_elec_x_mu_theta();
-    //   // // // output.diff_ex_phi = event->Diff_elec_x_mu_phi();
-    //   // // // output.diff_bx_theta = event->Diff_beam_x_mu_theta();
-    //   // // // output.diff_bx_phi = event->Diff_beam_x_mu_phi();
+      //   // // // output.diff_ex_theta = event->Diff_elec_x_mu_theta();
+      //   // // // output.diff_ex_phi = event->Diff_elec_x_mu_phi();
+      //   // // // output.diff_bx_theta = event->Diff_beam_x_mu_theta();
+      //   // // // output.diff_bx_phi = event->Diff_beam_x_mu_phi();
 
-    //   // // output.status_Pim = statusPim;
-    //   // // output.status_Pip = statusPip;
-    //   // // output.status_Prot = statusProt;
+      //   // // output.status_Pim = statusPim;
+      //   // // output.status_Pip = statusPip;
+      //   // // output.status_Prot = statusProt;
 
-    //   // output.weight_exclusive = event->weight();
+      //   // output.weight_exclusive = event->weight();
 
-    //   // // for generated case
-    //   // output.w_mc = mc_event->W_mc();
-    //   // output.q2_mc = mc_event->Q2_mc();
+      //   // // for generated case
+      //   // output.w_mc = mc_event->W_mc();
+      //   // output.q2_mc = mc_event->Q2_mc();
 
-    //   // output.x_mu_mom_exclusive = mc_event->x_mu_momentum_mc();
-    //   // output.x_mu_theta_exclusive = mc_event->x_mu_theta_lab_mc();
-    //   // output.x_mu_phi_exclusive = mc_event->x_mu_Phi_lab_mc();
-    //   // output.mm2_exclusive_at_zero = mc_event->MM2_exclusive_mc();
-    //   // output.energy_x_mu = mc_event->Energy_excl_mc();
+      //   // output.x_mu_mom_exclusive = mc_event->x_mu_momentum_mc();
+      //   // output.x_mu_theta_exclusive = mc_event->x_mu_theta_lab_mc();
+      //   // output.x_mu_phi_exclusive = mc_event->x_mu_Phi_lab_mc();
+      //   // output.mm2_exclusive_at_zero = mc_event->MM2_exclusive_mc();
+      //   // output.energy_x_mu = mc_event->Energy_excl_mc();
 
-    //   // output.diff_ex_theta = mc_event->Diff_elec_x_mu_theta_mc();
-    //   // output.diff_ex_phi = mc_event->Diff_elec_x_mu_phi_mc();
-    //   // output.diff_bx_theta = mc_event->Diff_beam_x_mu_theta_mc();
-    //   // output.diff_bx_phi = mc_event->Diff_beam_x_mu_phi_mc();
+      //   // output.diff_ex_theta = mc_event->Diff_elec_x_mu_theta_mc();
+      //   // output.diff_ex_phi = mc_event->Diff_elec_x_mu_phi_mc();
+      //   // output.diff_bx_theta = mc_event->Diff_beam_x_mu_theta_mc();
+      //   // output.diff_bx_phi = mc_event->Diff_beam_x_mu_phi_mc();
 
-    //   // output.weight_exclusive = mc_event->weight();
+      //   // output.weight_exclusive = mc_event->weight();
 
-    //   // mPip  .......................................
-    //   /*
-    //                output.pip_mom_mPip = event->pip_momentum();
-    //                output.pip_theta_mPip = event->pip_theta_lab();
-    //                output.pip_phi_mPip = event->pip_Phi_lab();
-    //                output.mm2_mPip = event->MM2_mPip();
-    //                output.mm2_mPip_corr = event->MM2_mPip_corr();
-    //                output.weight_mPip = event->weight();
-    //   */
-    //   /*
-    //         output.scalar_product = event->scalar_triple_product();
-    //         output.pip_mom_exclusive = event->pip_momentum_measured();
-    //         output.pip_theta_exclusive = event->pip_theta_lab_measured();
-    //         output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-    //         output.mm2_exclusive = event->MM2_mPip();
-    //         output.weight_exclusive = event->weight();
-    //   */
-    //   // mProt .......................................
-    //   /*
-    //           output.prot_mom_mProt = event->prot_momentum();
-    //           output.prot_theta_mProt = event->prot_theta_lab();
-    //           output.prot_phi_mProt = event->prot_Phi_lab();
-    //           output.mm2_mProt = event->MM2_mProt();
-    //           output.mm2_mProt_corr = event->MM2_mProt_corr();
-    //           output.weight_mProt = event->weight();
-    //   */
-    //   /*
-    //         output.scalar_product = event->scalar_triple_product();
-    //         output.prot_mom_exclusive = event->prot_momentum_measured();
-    //         output.prot_theta_exclusive = event->prot_theta_lab_measured();
-    //         output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-    //         output.mm2_exclusive = event->MM2_mProt();
-    //         output.weight_exclusive = event->weight();
+      //   // mPip  .......................................
+      //   /*
+      //                output.pip_mom_mPip = event->pip_momentum();
+      //                output.pip_theta_mPip = event->pip_theta_lab();
+      //                output.pip_phi_mPip = event->pip_Phi_lab();
+      //                output.mm2_mPip = event->MM2_mPip();
+      //                output.mm2_mPip_corr = event->MM2_mPip_corr();
+      //                output.weight_mPip = event->weight();
+      //   */
+      //   /*
+      //         output.scalar_product = event->scalar_triple_product();
+      //         output.pip_mom_exclusive = event->pip_momentum_measured();
+      //         output.pip_theta_exclusive = event->pip_theta_lab_measured();
+      //         output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+      //         output.mm2_exclusive = event->MM2_mPip();
+      //         output.weight_exclusive = event->weight();
+      //   */
+      //   // mProt .......................................
+      //   /*
+      //           output.prot_mom_mProt = event->prot_momentum();
+      //           output.prot_theta_mProt = event->prot_theta_lab();
+      //           output.prot_phi_mProt = event->prot_Phi_lab();
+      //           output.mm2_mProt = event->MM2_mProt();
+      //           output.mm2_mProt_corr = event->MM2_mProt_corr();
+      //           output.weight_mProt = event->weight();
+      //   */
+      //   /*
+      //         output.scalar_product = event->scalar_triple_product();
+      //         output.prot_mom_exclusive = event->prot_momentum_measured();
+      //         output.prot_theta_exclusive = event->prot_theta_lab_measured();
+      //         output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+      //         output.mm2_exclusive = event->MM2_mProt();
+      //         output.weight_exclusive = event->weight();
 
-    //   */
-    //   // std::cout << "beam px  " << event->beam_px() << std::endl;
-    //   // std::cout << "beam py  " << event->beam_py() << std::endl;
-    //   // std::cout << "beam pz  " << event->beam_pz() << std::endl;
-    //   // std::cout << "beam E  " << event->beam_E() << std::endl;
+      //   */
+      //   // std::cout << "beam px  " << event->beam_px() << std::endl;
+      //   // std::cout << "beam py  " << event->beam_py() << std::endl;
+      //   // std::cout << "beam pz  " << event->beam_pz() << std::endl;
+      //   // std::cout << "beam E  " << event->beam_E() << std::endl;
 
-    //   // std::cout << "elec px  " << event->elec_px() << std::endl;
-    //   // std::cout << "elec py  " << event->elec_py() << std::endl;
-    //   // std::cout << "elec pz  " << event->elec_pz() << std::endl;
-    //   // std::cout << "elec E  " << event->elec_E() << std::endl;
+      //   // std::cout << "elec px  " << event->elec_px() << std::endl;
+      //   // std::cout << "elec py  " << event->elec_py() << std::endl;
+      //   // std::cout << "elec pz  " << event->elec_pz() << std::endl;
+      //   // std::cout << "elec E  " << event->elec_E() << std::endl;
 
-    //   // std::cout << "target px  " << event->target_px() << std::endl;
-    //   // std::cout << "target py  " << event->target_py() << std::endl;
-    //   // std::cout << "target pz  " << event->target_pz() << std::endl;
-    //   // std::cout << "target E  " << event->target_E() << std::endl;
+      //   // std::cout << "target px  " << event->target_px() << std::endl;
+      //   // std::cout << "target py  " << event->target_py() << std::endl;
+      //   // std::cout << "target pz  " << event->target_pz() << std::endl;
+      //   // std::cout << "target E  " << event->target_E() << std::endl;
 
-    //   // std::cout << "pip px  " << event->pip_px() << std::endl;
-    //   // std::cout << "pip py  " << event->pip_py() << std::endl;
-    //   // std::cout << "pip pz  " << event->pip_pz() << std::endl;
-    //   // std::cout << "pip E  " << event->pip_E() << std::endl;
+      //   // std::cout << "pip px  " << event->pip_px() << std::endl;
+      //   // std::cout << "pip py  " << event->pip_py() << std::endl;
+      //   // std::cout << "pip pz  " << event->pip_pz() << std::endl;
+      //   // std::cout << "pip E  " << event->pip_E() << std::endl;
 
-    //   // std::cout << "prot px  " << event->prot_px() << std::endl;
-    //   // std::cout << "prot py  " << event->prot_py() << std::endl;
-    //   // std::cout << "prot pz  " << event->prot_pz() << std::endl;
-    //   // std::cout << "prot E  " << event->prot_E() << std::endl;
+      //   // std::cout << "prot px  " << event->prot_px() << std::endl;
+      //   // std::cout << "prot py  " << event->prot_py() << std::endl;
+      //   // std::cout << "prot pz  " << event->prot_pz() << std::endl;
+      //   // std::cout << "prot E  " << event->prot_E() << std::endl;
 
-    //   // std::cout << "W  " << event->W() << std::endl;
-    //   // std::cout << "MM2_root_calc " << event->MM2() << std::endl;
-    //   // std::cout << "MM2_our_hand_calc  " << event->rec_pim_mm2() << std::endl;
-    //   // std::cout << "root_rec_pim P " << event->pim_momentum() << std::endl;
-    //   // std::cout << "root_rec_pim E " << event->MM() << std::endl;
-    //   // std::cout << "hand_rec_pim P " << event->rec_pim_P() << std::endl;
-    //   // std::cout << "mes_pim P " << event->pim_P() << std::endl;
+      //   // std::cout << "W  " << event->W() << std::endl;
+      //   // std::cout << "MM2_root_calc " << event->MM2() << std::endl;
+      //   // std::cout << "MM2_our_hand_calc  " << event->rec_pim_mm2() << std::endl;
+      //   // std::cout << "root_rec_pim P " << event->pim_momentum() << std::endl;
+      //   // std::cout << "root_rec_pim E " << event->MM() << std::endl;
+      //   // std::cout << "hand_rec_pim P " << event->rec_pim_P() << std::endl;
+      //   // std::cout << "mes_pim P " << event->pim_P() << std::endl;
 
-    //   // std::cout << "hand_rec_pim px " << event->rec_pim_px() << std::endl;
-    //   // std::cout << "hand_rec_pim py " << event->rec_pim_py() << std::endl;
-    //   // std::cout << "hand_rec_pim pz " << event->rec_pim_pz() << std::endl;
-    //   // std::cout << "hand_rec_pim E " << event->rec_pim_E() << std::endl;
+      //   // std::cout << "hand_rec_pim px " << event->rec_pim_px() << std::endl;
+      //   // std::cout << "hand_rec_pim py " << event->rec_pim_py() << std::endl;
+      //   // std::cout << "hand_rec_pim pz " << event->rec_pim_pz() << std::endl;
+      //   // std::cout << "hand_rec_pim E " << event->rec_pim_E() << std::endl;
 
-    //   // std::cout << "mes_pim px " << event->pim_px() << std::endl;
-    //   // std::cout << "mes_pim py " << event->pim_py() << std::endl;
-    //   // std::cout << "mes_pim pz " << event->pim_pz() << std::endl;
-    //   // std::cout << "mes_pim E " << event->pim_E() << std::endl;
+      //   // std::cout << "mes_pim px " << event->pim_px() << std::endl;
+      //   // std::cout << "mes_pim py " << event->pim_py() << std::endl;
+      //   // std::cout << "mes_pim pz " << event->pim_pz() << std::endl;
+      //   // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
-    //   _sync->write(output);
-    //   // }
-    // }
+      _sync->write(output);
+      //   // }
+    }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events
