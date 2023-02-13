@@ -92,7 +92,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      if ((data->pid(part) == 0)) {
+      if (data->pid(part) == 0) {
         if (data->sc_cnd_layer(part) == 3) {
           csv_data output;
 
@@ -105,7 +105,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
             // data->pz(part)
             //           << "_prot E : " << MASS_P << std::endl;
-          }
+          // }
         } else if (cuts->IsPip(part)) {
           // if (cuts->HadronsCuts(part)) {
           event->SetPip(part);
@@ -120,7 +120,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //     }
         //   } else {
         //     event->SetOther(part);
-        // }
+        }
       }
 
       // output.pid_part = data->pid(part);
