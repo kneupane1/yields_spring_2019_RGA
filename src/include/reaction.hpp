@@ -565,7 +565,7 @@ class Reaction {
   double pim_phi_corr_sim[Pim_phi_bins] = {
       -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
   };
-
+  float _dedx_pim;
   float _dedx_pip;
   float _dedx_prot;
 
@@ -689,6 +689,7 @@ class Reaction {
   float prot_Phi_lab_measured();
 
 //test
+  inline float pim_dedx() { return _dedx_pim; }
   inline float pip_dedx(){return _dedx_pip;}
   inline float prot_dedx(){return _dedx_prot;}
 

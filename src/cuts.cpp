@@ -116,10 +116,12 @@ bool Cuts::FiducialCuts() {
 bool Cuts::IsPip(int i) {
   if (_data->gpart() <= i) return false;
   bool _pip = true;
+  // _pip &= (_data->pid(i) == 0);
+  // _pip &= (_data->sc_cnd_layer(i) ==3 );
   // _pip &= ((_data->p(i) < 0.5) || (_data->sc_extras_dedx(i) < (-3.43 * (_data->p(i)) + 5.8)));
+  // _pip &= (_data->charge(i) == POSITIVE);
 
-
-  //   _pip &= (_data->charge(i) == POSITIVE);
+  _pip &= (_data->charge(i) == POSITIVE);
   _pip &= (_data->pid(i) == PIP);
   _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
   // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
@@ -145,29 +147,28 @@ bool Cuts::IsPip(int i) {
 bool Cuts::IsProton(int i) {
   if (_data->gpart() <= i) return false;
   bool _proton = true;
-    _proton &= (_data->charge(i) == POSITIVE);
-    _proton &= (_data->pid(i) > 0.5);
-    _proton &= (_data->sc_cnd_layer(i) ==3 );
-    _proton &= (_data->p(i) > 0.5);
-    _proton &= (_data->sc_extras_dedx(i) > (-3.43 * (_data->p(i)) + 5.8));
-
-    /*
-    //   _proton &= (_data->charge(i) == POSITIVE);
-    _proton &= (_data->pid(i) == PROTON);
-    _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
-    // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
-    _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-    // min/max mom cuts
-    // if (abs(_data->status(i)) < 4000) {
-    //   _proton &= (_data->p(i) > 0.4);
-    //   _proton &= (_data->p(i) < 5.0);
-    // } else if (abs(_data->status(i)) >= 4000) {
-    //   _proton &= (_data->p(i) > 0.0);
-    //   _proton &= (_data->p(i) < 3.0);
-    // }
-    //   _proton &= (_data->p(i) > 0.2);
-    // //_proton &= (abs(_data->chi2pid(i)) < 0.5);*/
-    return _proton;
+  _proton &= (_data->pid(i) == 0);
+  _proton &= (_data->charge(i) == POSITIVE);
+  _proton &= (_data->sc_cnd_layer(i) == 3);
+  _proton &= (_data->p(i) > 0.5);
+  _proton &= (_data->sc_extras_dedx(i) > (-3.43 * (_data->p(i)) + 5.8));
+/*
+  //   _proton &= (_data->charge(i) == POSITIVE);
+  _proton &= (_data->pid(i) == PROTON);
+  _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
+  // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
+  _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
+  // min/max mom cuts
+  // if (abs(_data->status(i)) < 4000) {
+  //   _proton &= (_data->p(i) > 0.4);
+  //   _proton &= (_data->p(i) < 5.0);
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _proton &= (_data->p(i) > 0.0);
+  //   _proton &= (_data->p(i) < 3.0);
+  // }
+  //   _proton &= (_data->p(i) > 0.2);
+  // //_proton &= (abs(_data->chi2pid(i)) < 0.5);*/
+  return _proton;
 }
 bool Cuts::IsPim(int i) {
   if (_data->gpart() <= i) return false;

@@ -43,7 +43,8 @@ struct csv_data {
   float extras_layermult;
 
   float extras_dedx_pip;
-  float extras_dedx_prot; //////////
+  float extras_dedx_pim;
+  float extras_dedx_prot;  //////////
 
   float scalar_product;
   float pim_mom_mPim;
@@ -142,60 +143,63 @@ struct csv_data {
   float inv_ppim;
   float inv_pip_pim;
 
-float chi2pid_e;
-float chi2pid_p;
-float chi2pid_pip;
-float chi2pid_pim;
+  float chi2pid_e;
+  float chi2pid_p;
+  float chi2pid_pip;
+  float chi2pid_pim;
 
-// Static functions can be called without making a new struct
-static std::string header() {
-  // Make a string for the header of the csv file mPim case
-  return "mm2_excl,missing_en,mm2_mPim,mm2_mPip,mm2_mProt,mom_prot_mes,dedx_prot,mom_mProt";
-  // return "pid_part,beta_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,cnd_layer,ctof_comp,extras_dedx";
-  // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
+  // Static functions can be called without making a new struct
+  static std::string header() {
+    // Make a string for the header of the csv file mPim case
+    return "mom_prot_mProt,mom_pip_mPip,mom_pim_mPim,mom_prot_mes,mom_pip_mes,mom_pim_mes,prot_dedx,pip_dedx,pim_dedx,"
+           "mm2_excl,missing_en,mm2_mPim,mm2_mPip,mm2_mProt";
+    // return
+    // "pid_part,beta_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,cnd_layer,ctof_comp,extras_dedx";
+    // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
 
-  // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
-  // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
-  // for all 3 particles // // Data/ Simulations excl....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
-  // return "prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,pim_mom_gen,pim_theta_gen,"
-  //        "pim_phi_gen,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
-  //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,"
-  //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
-  //        "status_Pip,status_Prot,weight";
-  // return "prot_sec,prot_mom_gen,prot_theta_gen,prot_phi_gen,"
-  //        "prot_mom_mes,prot_theta_mes,prot_phi_mes,dcr1_theta_prot,"
-  //        "mm2_exclusive_at_zero,energy_x_mu,status_Prot,weight";
+    // for all 3 particles // // Data/ Simulations excl....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
+    // return
+    // "prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,pim_mom_gen,pim_theta_gen,"
+    //        "pim_phi_gen,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+    //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,"
+    //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
+    //        "status_Pip,status_Prot,weight";
+    // return "prot_sec,prot_mom_gen,prot_theta_gen,prot_phi_gen,"
+    //        "prot_mom_mes,prot_theta_mes,prot_phi_mes,dcr1_theta_prot,"
+    //        "mm2_exclusive_at_zero,energy_x_mu,status_Prot,weight";
 
-  // return "pip_sec,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
-  //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,dcr1_theta_pip,"
-  //        "status_Pip,weight";
-  // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
-  //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
-  //        "status_Pim,weight";
-  // return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
-  //        "miss,pip_mom_miss,pip_"
-  //        "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
-  //        "dcr1_theta_prot,prot_pt,"
-  //        "pip_mom_mes,pip_theta_mes,pip_phi_"
-  //        "mes,dcr1_theta_pip,pip_pt,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_pt,mm2_"
-  //        "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
-  //        "exclusive_at_zero,energy_x_mu,inv_ppip,inv_ppim,inv_pippim,"
-  //        "status_Pim,"
-  //        "status_Pip,status_Prot,chi2_e,chi2_p,chi2_pip,chi2_pim,weight";
+    // return "pip_sec,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
+    //        "pip_mom_mes,pip_theta_mes,pip_phi_mes,dcr1_theta_pip,"
+    //        "status_Pip,weight";
+    // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
+    //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
+    //        "status_Pim,weight";
+    // return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
+    //        "miss,pip_mom_miss,pip_"
+    //        "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+    //        "dcr1_theta_prot,prot_pt,"
+    //        "pip_mom_mes,pip_theta_mes,pip_phi_"
+    //        "mes,dcr1_theta_pip,pip_pt,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_pt,mm2_"
+    //        "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
+    //        "exclusive_at_zero,energy_x_mu,inv_ppip,inv_ppim,inv_pippim,"
+    //        "status_Pim,"
+    //        "status_Pip,status_Prot,chi2_e,chi2_p,chi2_pip,chi2_pim,weight";
 
-  // mPip case
-  // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
-  // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
+    // mPip case
+    // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
+    // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
-  // // mProt case
-  // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
-  // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
+    // // mProt case
+    // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
+    // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
 
-  // for cross-section checks
-  // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
-  // return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
-  // return "w_mc,q2_mc,weight";
+    // for cross-section checks
+    // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
+    // return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
+    // return "w_mc,q2_mc,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -208,6 +212,16 @@ static std::string header() {
     // os << data.prot_sec << ",";
 
     os << std::setprecision(7);
+    os << data.prot_mom_mProt << ",";
+    os << data.pip_mom_mPip << ",";
+    os << data.pim_mom_mPim << ",";
+    os << data.prot_mom_exclusive << ",";
+    os << data.pip_mom_exclusive << ",";
+    os << data.pim_mom_exclusive << ",";
+
+    os << data.extras_dedx_prot << ",";
+    os << data.extras_dedx_pip << ",";
+    os << data.extras_dedx_pim << ",";
 
     os << data.mm2_exclusive_at_zero << ",";
     os << data.energy_x_mu << ",";
@@ -216,9 +230,6 @@ static std::string header() {
     os << data.mm2_mProt << ",";
     // os << data.pip_mom_exclusive << ",";
     // os << data.extras_dedx_pip << ",";
-    os << data.prot_mom_exclusive << ",";
-    os << data.extras_dedx_prot << ",";
-    os << data.prot_mom_mProt << ",";
 
     // os << data.w << ",";
     // os << data.q2 << ",";
@@ -340,7 +351,6 @@ static std::string header() {
     // // // // os << data.pim_theta_corr << ",";
     // // // // os << data.pim_phi_corr << ",";
     // // // // os << std::setprecision(10);
-
 
     // os << data.mm2_mProt << ",";
     // os << data.mm2_mProt_corr << ",";
@@ -478,33 +488,33 @@ static std::string header() {
     // // os << std::setprecision(10);
     // os << data.weight_exclusive<<",";
 
-     // mPip .......................................
-   /*    os << data.pip_mom_mPip << ",";
-       os << data.pip_theta_mPip << ",";
-       os << data.pip_phi_mPip << ",";
-       os << data.mm2_mPip << ",";
-       os << data.mm2_mPip_corr << ",";
-       os << std::setprecision(1);
-       os << data.weight_mPip << ",";
-*/
+    // mPip .......................................
+    /*    os << data.pip_mom_mPip << ",";
+        os << data.pip_theta_mPip << ",";
+        os << data.pip_phi_mPip << ",";
+        os << data.mm2_mPip << ",";
+        os << data.mm2_mPip_corr << ",";
+        os << std::setprecision(1);
+        os << data.weight_mPip << ",";
+ */
 
-     /*  os << data.scalar_product << ",";
-       os << data.pip_mom_exclusive << ",";
-       os << data.pip_theta_exclusive << ",";
-       os << data.pip_phi_exclusive << ",";
-       os << data.mm2_exclusive << ",";
-       os << std::setprecision(5);
-       os << data.weight_exclusive << ",";
+    /*  os << data.scalar_product << ",";
+      os << data.pip_mom_exclusive << ",";
+      os << data.pip_theta_exclusive << ",";
+      os << data.pip_phi_exclusive << ",";
+      os << data.mm2_exclusive << ",";
+      os << std::setprecision(5);
+      os << data.weight_exclusive << ",";
+  */
+    // mProt .......................................
+    /*    os << data.prot_mom_mProt << ",";
+        os << data.prot_theta_mProt << ",";
+        os << data.prot_phi_mProt << ",";
+        os << data.mm2_mProt << ",";
+        os << data.mm2_mProt_corr << ",";
+        os << std::setprecision(1);
+        os << data.weight_mProt << ",";
    */
-     // mProt .......................................
- /*    os << data.prot_mom_mProt << ",";
-     os << data.prot_theta_mProt << ",";
-     os << data.prot_phi_mProt << ",";
-     os << data.mm2_mProt << ",";
-     os << data.mm2_mProt_corr << ",";
-     os << std::setprecision(1);
-     os << data.weight_mProt << ",";
-*/
     /*      os << data.scalar_product << ",";
           os << data.prot_mom_exclusive << ",";
           os << data.prot_theta_exclusive << ",";
