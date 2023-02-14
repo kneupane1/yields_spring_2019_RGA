@@ -142,7 +142,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // // if (event->TwoPion_missingPim()) {
     // // if (event->TwoPion_missingPip()) {
     // // if (event->TwoPion_missingProt()) {
-    if (event->TwoPion_exclusive()) {
+    // if (event->TwoPion_exclusive()) {
       //   // if (event->Inclusive()) {
       //   // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
       //   // &&
@@ -239,23 +239,23 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       //   // // output.pim_theta_corr = event->pim_theta_corrected();
       //   // // output.pim_phi_corr = event->pim_Phi_corrected();
 
-        output.prot_mom_mProt = event->prot_momentum();
-        output.pip_mom_mPip = event->pip_momentum();
-        output.pim_mom_mPim = event->pim_momentum();
-        //   // // // recon mes
+        // output.prot_mom_mProt = event->prot_momentum();
+        // output.pip_mom_mPip = event->pip_momentum();
+        // output.pim_mom_mPim = event->pim_momentum();
+        // //   // // // recon mes
         output.prot_mom_exclusive = event->prot_momentum_corrected();
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pim_mom_exclusive = event->pim_momentum_measured();
+        // output.pip_mom_exclusive = event->pip_momentum_measured();
+        // output.pim_mom_exclusive = event->pim_momentum_measured();
 
         output.extras_dedx_prot = event->prot_dedx();
-        output.extras_dedx_pip = event->pip_dedx();
-        output.extras_dedx_pim = event->pim_dedx();
+        // output.extras_dedx_pip = event->pip_dedx();
+        // output.extras_dedx_pim = event->pim_dedx();
 
-        output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        output.energy_x_mu = event->Energy_excl();
-        output.mm2_mPim = event->MM2();
-        output.mm2_mPip = event->MM2_mPip();
-        output.mm2_mProt = event->MM2_mProt();
+        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        // output.energy_x_mu = event->Energy_excl();
+        // output.mm2_mPim = event->MM2();
+        // output.mm2_mPip = event->MM2_mPip();
+        // output.mm2_mProt = event->MM2_mProt();
 
         // output.pip_mom_exclusive = event->pip_momentum_measured();
         // output.extras_dedx_pip = event->pip_dedx();
