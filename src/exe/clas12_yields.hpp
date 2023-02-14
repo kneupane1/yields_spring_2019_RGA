@@ -116,24 +116,25 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   //   event->SetOther(part);
         //   }
         // }
+        csv_data output;
 
-        // output.pid_part = data->pid(part);
-        // output.beta_part = data->beta(part);
-        // output.mom_part = data->p(part);
-        // output.charge_part = data->charge(part);
+        output.pid_part = data->pid(part);
+        output.beta_part = data->beta(part);
+        output.mom_part = data->p(part);
+        output.charge_part = data->charge(part);
 
-        // output.cnd_component = data->sc_cnd_component(part);
-        // output.cnd_energy = data->sc_cnd_energy(part);
-        // output.cnd_path = data->sc_cnd_path(part);
-        // output.cnd_time = data->sc_cnd_time(part);
-        // output.cnd_layer = data->sc_cnd_layer(part);
+        output.cnd_component = data->sc_cnd_component(part);
+        output.cnd_energy = data->sc_cnd_energy(part);
+        output.cnd_path = data->sc_cnd_path(part);
+        output.cnd_time = data->sc_cnd_time(part);
+        output.cnd_layer = data->sc_cnd_layer(part);
 
-        // output.ctof_component = data->sc_ctof_component(part);
-        // output.extras_dedx = data->sc_extras_dedx(part);
-        // // output.extras_size = data->sc_extras_size(part);
-        // // output.extras_layermult = data->sc_extras_layermult(part);
+        output.ctof_component = data->sc_ctof_component(part);
+        output.extras_dedx = data->sc_extras_dedx(part);
+        // output.extras_size = data->sc_extras_size(part);
+        // output.extras_layermult = data->sc_extras_layermult(part);
 
-        // _sync->write(output);
+        _sync->write(output);
         // }
         // }
 
@@ -153,7 +154,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // 0)))
         // {
         //   //   // total++;
-        csv_data output;
+        // csv_data output;
 
         //   // // //// using exclusive topology ...................................
 
@@ -244,11 +245,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pip_mom_mPip = event->pip_momentum();
         // output.pim_mom_mPim = event->pim_momentum();
         // //   // // // recon mes
-        output.prot_mom_exclusive = event->prot_momentum_corrected();
+        // output.prot_mom_exclusive = event->prot_momentum_corrected();
         // output.pip_mom_exclusive = event->pip_momentum_measured();
         // output.pim_mom_exclusive = event->pim_momentum_measured();
 
-        output.extras_dedx_prot = event->prot_dedx();
+        // output.extras_dedx_prot = event->prot_dedx();
         // output.extras_dedx_pip = event->pip_dedx();
         // output.extras_dedx_pim = event->pim_dedx();
 
