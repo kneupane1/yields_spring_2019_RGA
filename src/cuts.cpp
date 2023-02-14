@@ -147,7 +147,7 @@ bool Cuts::IsPip(int i) {
 bool Cuts::IsProton(int i) {
   if (_data->gpart() <= i) return false;
   bool _proton = true;
-  _proton &= (_data->pid(i) != 0);
+  _proton &= (_data->pid(i) == 0);
   _proton &= (_data->charge(i) == POSITIVE);
   _proton &= (_data->sc_cnd_layer(i) == 3);
   // _proton &= (_data->p(i) > 0.5);
