@@ -152,7 +152,9 @@ struct csv_data {
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     return "mom_prot_mProt,mom_pip_mPip,mom_pim_mPim,mom_prot_mes,mom_pip_mes,mom_pim_mes,prot_dedx,pip_dedx,pim_dedx,"
-           "mm2_excl,missing_en,mm2_mPim,mm2_mPip,mm2_mProt";
+           "mm2_excl,missing_en,mm2_mPim,mm2_mPip,mm2_mProt,inv_ppip,inv_ppim,inv_pippim,"
+           "status_Pim,"
+           "status_Pip,status_Prot";
     // return
     // "pid_part,beta_part,mom_part,charge_part,cnd_comp,cnd_energy,cnd_path,cnd_time,cnd_layer,ctof_comp,extras_dedx";
     // return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
@@ -365,15 +367,15 @@ struct csv_data {
     // os << data.energy_x_mu << ",";
 
     // os << std::setprecision(7);
-    // os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
 
-    // os << std::setprecision(1);
+    os << std::setprecision(3);
 
-    // os << data.status_Pim << ",";
-    // os << data.status_Pip << ",";
-    // os << data.status_Prot << ",";
+    os << data.status_Pim << ",";
+    os << data.status_Pip << ",";
+    os << data.status_Prot << ",";
 
     // os << data.chi2pid_e<< ",";
     // os << data.chi2pid_p << ",";
