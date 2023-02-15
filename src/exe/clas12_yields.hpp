@@ -96,7 +96,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       if (cuts->IsProton(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetProton(part);
-          // statusProt = abs(data->status(part));
+          statusProt = abs(data->status(part));
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
           // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
           // data->pz(part)
@@ -105,13 +105,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       } else if (cuts->IsPip(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPip(part);
-          // statusPip = abs(data->status(part));
+          statusPip = abs(data->status(part));
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPim(part);
-          // statusPim = abs(data->status(part));
+          statusPim = abs(data->status(part));
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
