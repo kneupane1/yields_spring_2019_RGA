@@ -1020,13 +1020,13 @@ float Reaction::prot_momentum_corrected() {
 void Reaction::invMassPpim() {
   auto inv_Ppim = std::make_unique<TLorentzVector>();
   *inv_Ppim += *_prot;
-  *inv_Ppim += (*_gamma + *_target - *_prot - *_pip);
+  *inv_Ppim +=  *_pim;
   if (TwoPion_exclusive()) _inv_Ppim = inv_Ppim->M();
 }
 void Reaction::invMasspippim() {
   auto inv_pip_pim = std::make_unique<TLorentzVector>();
   *inv_pip_pim += *_pip;
-  *inv_pip_pim += (*_gamma + *_target - *_prot - *_pip);
+  *inv_pip_pim += *_pim;
   if (TwoPion_exclusive()) _inv_pip_pim = inv_pip_pim->M();
 }
 void Reaction::invMassPpip() {
