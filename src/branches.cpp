@@ -421,18 +421,18 @@ void Branches12::init() {
   // _tree->SetBranchAddress("sc_ftof_2_hz", &_sc_ftof_2_hz, &b_sc_ftof_2_hz);
   _tree->SetBranchAddress("sc_ctof_time", &_sc_ctof_time, &b_sc_ctof_time);
   _tree->SetBranchAddress("sc_ctof_path", &_sc_ctof_path, &b_sc_ctof_path);
-  _tree->SetBranchAddress("sc_ctof_energy", &_sc_ctof_energy, &b_sc_ctof_energy);
-  _tree->SetBranchAddress("sc_ctof_component", &_sc_ctof_component, &b_sc_ctof_component);
+  // _tree->SetBranchAddress("sc_ctof_energy", &_sc_ctof_energy, &b_sc_ctof_energy);
+  // _tree->SetBranchAddress("sc_ctof_component", &_sc_ctof_component, &b_sc_ctof_component);
   // _tree->SetBranchAddress("sc_ctof_x", &_sc_ctof_x, &b_sc_ctof_x);
   // _tree->SetBranchAddress("sc_ctof_y", &_sc_ctof_y, &b_sc_ctof_y);
   // _tree->SetBranchAddress("sc_ctof_z", &_sc_ctof_z, &b_sc_ctof_z);
   // _tree->SetBranchAddress("sc_ctof_hx", &_sc_ctof_hx, &b_sc_ctof_hx);
   // _tree->SetBranchAddress("sc_ctof_hy", &_sc_ctof_hy, &b_sc_ctof_hy);
   // _tree->SetBranchAddress("sc_ctof_hz", &_sc_ctof_hz, &b_sc_ctof_hz);
-  _tree->SetBranchAddress("sc_cnd_time", &_sc_cnd_time, &b_sc_cnd_time);
-  _tree->SetBranchAddress("sc_cnd_path", &_sc_cnd_path, &b_sc_cnd_path);
-  _tree->SetBranchAddress("sc_cnd_energy", &_sc_cnd_energy, &b_sc_cnd_energy);
-  _tree->SetBranchAddress("sc_cnd_component", &_sc_cnd_component, &b_sc_cnd_component);
+  // _tree->SetBranchAddress("sc_cnd_time", &_sc_cnd_time, &b_sc_cnd_time);
+  // _tree->SetBranchAddress("sc_cnd_path", &_sc_cnd_path, &b_sc_cnd_path);
+  // _tree->SetBranchAddress("sc_cnd_energy", &_sc_cnd_energy, &b_sc_cnd_energy);
+  // _tree->SetBranchAddress("sc_cnd_component", &_sc_cnd_component, &b_sc_cnd_component);
 
   // _tree->SetBranchAddress("sc_cnd_x", &_sc_cnd_x, &b_sc_cnd_x);
   // _tree->SetBranchAddress("sc_cnd_y", &_sc_cnd_y, &b_sc_cnd_y);
@@ -441,12 +441,12 @@ void Branches12::init() {
   // _tree->SetBranchAddress("sc_cnd_hy", &_sc_cnd_hy, &b_sc_cnd_hy);
   // _tree->SetBranchAddress("sc_cnd_hz", &_sc_cnd_hz, &b_sc_cnd_hz);
 
-  _tree->SetBranchAddress("sc_cnd_pindex", &_sc_cnd_pindex, &b_sc_cnd_pindex);
-  _tree->SetBranchAddress("sc_cnd_layer", &_sc_cnd_layer, &b_sc_cnd_layer);
+  // _tree->SetBranchAddress("sc_cnd_pindex", &_sc_cnd_pindex, &b_sc_cnd_pindex);
+  // _tree->SetBranchAddress("sc_cnd_layer", &_sc_cnd_layer, &b_sc_cnd_layer);
 
-  _tree->SetBranchAddress("sc_extras_dedx", &_sc_extras_dedx, &b_sc_extras_dedx);
-  _tree->SetBranchAddress("sc_extras_size", &_sc_extras_size, &b_sc_extras_size);
-  _tree->SetBranchAddress("sc_extras_layermult", &_sc_extras_layermult, &b_sc_extras_layermult);
+  // _tree->SetBranchAddress("sc_extras_dedx", &_sc_extras_dedx, &b_sc_extras_dedx);
+  // _tree->SetBranchAddress("sc_extras_size", &_sc_extras_size, &b_sc_extras_size);
+  // _tree->SetBranchAddress("sc_extras_layermult", &_sc_extras_layermult, &b_sc_extras_layermult);
 
   // _tree->SetBranchAddress("ft_cal_energy", &_ft_cal_energy, &b_ft_cal_energy);
   // _tree->SetBranchAddress("ft_cal_time", &_ft_cal_time, &b_ft_cal_time);

@@ -118,7 +118,7 @@ void Reaction::SetProton(int i) {
   _sectorProt = _data->dc_sec(i);
   _prot_status = abs(_data->status(i));
   _chi2pid_Prot = _data->chi2pid(i);
-  _dedx_prot = _data->sc_extras_dedx(i);
+  // _dedx_prot = _data->sc_extras_dedx(i);
 
   // _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
@@ -243,7 +243,7 @@ void Reaction::SetPip(int i) {
   _thetaDC_r1_Pip = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
   _chi2pid_Pip = _data->chi2pid(i);
 
-  _dedx_pip = _data->sc_extras_dedx(i);
+  // _dedx_pip = _data->sc_extras_dedx(i);
 
   // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -342,7 +342,7 @@ void Reaction::SetPim(int i) {
   _sectorPim = _data->dc_sec(i);
   _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
   _chi2pid_Pim = _data->chi2pid(i);
-  _dedx_pim = _data->sc_extras_dedx(i);
+  // _dedx_pim = _data->sc_extras_dedx(i);
 
   // _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
@@ -872,7 +872,7 @@ float Reaction::pip_Phi_lab() {
 }
 float Reaction::pip_momentum_measured() {
   if (TwoPion_exclusive())
-  return _pip->P();
+    return _pip->P();
   else
     return NAN;
 }
@@ -964,7 +964,7 @@ float Reaction::prot_Phi_lab() {
 }
 float Reaction::prot_momentum_measured() {
   if (TwoPion_exclusive())
-  return _prot->P();
+    return _prot->P();
   else
     return NAN;
 }
@@ -1020,7 +1020,7 @@ float Reaction::prot_momentum_corrected() {
 void Reaction::invMassPpim() {
   auto inv_Ppim = std::make_unique<TLorentzVector>();
   *inv_Ppim += *_prot;
-  *inv_Ppim +=  *_pim;
+  *inv_Ppim += *_pim;
   if (TwoPion_exclusive()) _inv_Ppim = inv_Ppim->M();
 }
 void Reaction::invMasspippim() {
