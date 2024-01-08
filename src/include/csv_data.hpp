@@ -152,7 +152,8 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    // return "mom_prot_mProt,mom_pip_mPip,mom_pim_mPim,mom_prot_mes,mom_pip_mes,mom_pim_mes,prot_dedx,pip_dedx,pim_dedx,"
+    // return
+    // "mom_prot_mProt,mom_pip_mPip,mom_pim_mPim,mom_prot_mes,mom_pip_mes,mom_pim_mes,prot_dedx,pip_dedx,pim_dedx,"
     //        "mm2_excl,missing_en,mm2_mPim,mm2_mPip,mm2_mProt,inv_ppip,inv_ppim,inv_pippim,"
     //        "status_Pim,"
     //        "status_Pip,status_Prot";
@@ -180,7 +181,7 @@ struct csv_data {
     // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
     //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
     //        "status_Pim,weight";
-    return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "sec_pim,sec_pip,sec_prot,w,q2,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
@@ -206,14 +207,14 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-    //  os << std::setprecision(1);
+    os << std::setprecision(1);
 
     // // os << data.electron_sector << ",";
     os << data.pim_sec << ",";
     os << data.pip_sec << ",";
     os << data.prot_sec << ",";
 
-    // os << std::setprecision(7);
+    os << std::setprecision(7);
     // os << data.prot_mom_mProt << ",";
     // os << data.pip_mom_mPip << ",";
     // os << data.pim_mom_mPim << ",";
@@ -233,8 +234,8 @@ struct csv_data {
     // os << data.pip_mom_exclusive << ",";
     // os << data.extras_dedx_pip << ",";
 
-    // os << data.w << ",";
-    // os << data.q2 << ",";
+    os << data.w << ",";
+    os << data.q2 << ",";
     // // // // os << data.w_after << ",";
 
     // // // // os << data.w_had << ",";
@@ -365,7 +366,6 @@ struct csv_data {
 
     os << data.mm2_mPim << ",";
     // os << data.mm2_mPim_corr << ",";
-
 
     // os << std::setprecision(7);
     os << data.inv_ppip << ",";
