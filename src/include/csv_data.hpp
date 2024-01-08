@@ -181,13 +181,11 @@ struct csv_data {
     // return "pim_sec,pim_mom_gen,pim_theta_gen,pim_phi_gen,"
     //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
     //        "status_Pim,weight";
-    return "sec_pim,sec_pip,sec_prot,w,q2,prot_mom_miss,prot_theta_miss,prot_phi_"
-           "miss,pip_mom_miss,pip_"
-           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+    return "sec_pim,sec_pip,sec_prot,w,q2,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_"
-           "mProt,mm2_mPip,mm2_mPim,mm2_"
-           "exclusive_at_zero,energy_x_mu,inv_ppip,inv_ppim,inv_pippim,"
+           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_exclusive_at_zero,energy_x_mu,mm2_mProt,"
+           "mm2_mPip,mm2_mPim,"
+           "inv_ppip,inv_ppim,inv_pippim,"
            "status_Pim,"
            "status_Pip,status_Prot,weight";
 
@@ -292,27 +290,27 @@ struct csv_data {
     // // os << data.gen_pim_theta << ",";
     // // os << data.gen_pim_phi << ",";
 
-    // // // Missing
-    os << std::setprecision(10);
-    os << data.prot_mom_mProt << ",";
-    os << std::setprecision(7);
+    // // // // Missing
+    // os << std::setprecision(10);
+    // os << data.prot_mom_mProt << ",";
+    // os << std::setprecision(7);
 
-    os << data.prot_theta_mProt << ",";
-    os << data.prot_phi_mProt << ",";
-    os << std::setprecision(10);
+    // os << data.prot_theta_mProt << ",";
+    // os << data.prot_phi_mProt << ",";
+    // os << std::setprecision(10);
 
-    os << data.pip_mom_mPip << ",";
-    os << std::setprecision(7);
+    // os << data.pip_mom_mPip << ",";
+    // os << std::setprecision(7);
 
-    os << data.pip_theta_mPip << ",";
-    os << data.pip_phi_mPip << ",";
-    os << std::setprecision(10);
+    // os << data.pip_theta_mPip << ",";
+    // os << data.pip_phi_mPip << ",";
+    // os << std::setprecision(10);
 
-    os << data.pim_mom_mPim << ",";
-    os << std::setprecision(7);
+    // os << data.pim_mom_mPim << ",";
+    // os << std::setprecision(7);
 
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
 
     // // // measured
     os << std::setprecision(10);
