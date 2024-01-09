@@ -1,8 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef CONSTANTS_H_GUARD
 #define CONSTANTS_H_GUARD
@@ -26,7 +21,7 @@ static const double FS_ALPHA = 0.007297352570866302;  // Fine structure alpha
 
 static const float rga_E0 = 10.6041;
 static const float rgf_E0 = 7.54626;
-static const float rgk_E0 = 6.5;
+static const float rgk_E0 = 6.394;
 
 // particle codes, usually PDG codes, but always those used in BOS
 static const int PROTON = 2212;
