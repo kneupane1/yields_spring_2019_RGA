@@ -9,8 +9,6 @@
 #include <string>
 #include "csv_data.hpp"
 
-// https://stackoverflow.com/questions/33596910/c-how-to-have-multiple-threads-write-to-a-file
-
 class SyncFile {
  public:
   SyncFile(const std::string& path);

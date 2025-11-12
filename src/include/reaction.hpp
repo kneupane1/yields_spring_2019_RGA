@@ -7,7 +7,6 @@
 #include "TLorentzVector.h"
 #include "branches.hpp"
 #include "constants.hpp"
-#include "mom_corr.hpp"
 #include "physics.hpp"
 class Reaction {
  protected:
@@ -28,22 +27,6 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _boosted_prot;
   std::unique_ptr<TLorentzVector> _boosted_pip;
   std::unique_ptr<TLorentzVector> _boosted_pim;
-
-  std::unique_ptr<TLorentzVector> _mom_corr_elec;
-  std::unique_ptr<TLorentzVector> _mom_corr_pim_th;
-  std::unique_ptr<TLorentzVector> _mom_corr_pim_ph;
-  std::unique_ptr<TLorentzVector> _mom_corr_pim;
-  std::unique_ptr<TLorentzVector> _mom_corr_pip_th;
-  std::unique_ptr<TLorentzVector> _mom_corr_pip_ph;
-  std::unique_ptr<TLorentzVector> _mom_corr_pip;
-  std::unique_ptr<TLorentzVector> _mom_corr_prot_th;
-  std::unique_ptr<TLorentzVector> _mom_corr_prot_ph;
-  std::unique_ptr<TLorentzVector> _mom_corr_prot;
-  std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pim;
-  std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pip;
-  std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_prot;
-  std::unique_ptr<TLorentzVector> _pim_tmt;
-  std::unique_ptr<TLorentzVector> _pip_tmt;
 
   std::unique_ptr<TLorentzVector> _rotated_prot;
   std::unique_ptr<TLorentzVector> _rotated_pip;
@@ -82,9 +65,10 @@ class Reaction {
 
   short _sector = -1;
 
-  float _MM = NAN;
-  float _MM2 = NAN;
+  float _MM_mProt = NAN;
+  float _MM2_mPim = NAN;
   float _MM2_exclusive = NAN;
+  float _MM_exclusive = NAN;
   float _excl_Energy = NAN;
   float _MM2_mPip = NAN;
   float _MM2_mProt = NAN;
@@ -137,18 +121,6 @@ class Reaction {
   double _cy = NAN;
   double _cz = NAN;
 
-  double _px_prime_elec = NAN;
-  double _py_prime_elec = NAN;
-  double _pz_prime_elec = NAN;
-
-  double fe = NAN;
-  double fpro = NAN;
-  double fpip = NAN;
-  double fpim = NAN;
-  float _thetaDC_r1_Prot = NAN;
-  float _thetaDC_r1_Pip = NAN;
-  float _thetaDC_r1_Pim = NAN;
-
   float _chi2pid_Ele = NAN;
   float _chi2pid_Prot = NAN;
   float _chi2pid_Pip = NAN;
@@ -157,175 +129,10 @@ class Reaction {
   //
   static const int CD_SEC = 3;
   static const int FD_SEC = 6;
-
-  // Now for prot mom corrections
-
-  double _px_prime_prot_th = NAN;
-  double _py_prime_prot_th = NAN;
-  double _pz_prime_prot_th = NAN;
-  double _E_prime_prot_th = NAN;
-
-  double _px_prime_prot_ph = NAN;
-  double _py_prime_prot_ph = NAN;
-  double _pz_prime_prot_ph = NAN;
-
-  double _px_prime_prot_mom = NAN;
-  double _py_prime_prot_mom = NAN;
-  double _pz_prime_prot_mom = NAN;
-
-  double _px_prime_prot_E = NAN;
-  double _py_prime_prot_E = NAN;
-  double _pz_prime_prot_E = NAN;
-
-  // float alpha_prot_mom_corr_FD[2] = {0.6, 0.9};
-  // float alpha_prot_mom_corr_CD[5] = {1.0, 0.5, 0.95};
-
-  double _prot_mom_prime = NAN;
-  double _prot_mom = NAN;
-  double _prot_mom_tmt = NAN;
-  double _prot_theta_tmt = NAN;
-  double _prot_phi_tmt = NAN;
-
-  double _prot_mom_prime_2nd = NAN;
-  double _prot_mom_2nd = NAN;
-  double _prot_mom_uncorr = NAN;
-  float _E_corr_val_prot = NAN;
-  double _prot_theta_uncorr = NAN;
-  float _prot_phi_uncorr = NAN;
-
-  static const int Prot_theta_bins = 10;
-  float alpha_prot_theta_corr = 0.5;
-  double _prot_theta = NAN;
-  double _prot_theta_prime = NAN;
-
-  static const int Prot_phi_bins = 11;
-  float alpha_prot_phi_corr = 0.5;
-  double _prot_phi = NAN;
-  double _prot_phi_prime = NAN;
-
-  // Now for pip mom corrections
-
-  double _px_prime_pip_th = NAN;
-  double _py_prime_pip_th = NAN;
-  double _pz_prime_pip_th = NAN;
-  double _E_prime_pip_th = NAN;
-
-  double _px_prime_pip_ph = NAN;
-  double _py_prime_pip_ph = NAN;
-  double _pz_prime_pip_ph = NAN;
-
-  double _px_prime_pip_mom = NAN;
-  double _py_prime_pip_mom = NAN;
-  double _pz_prime_pip_mom = NAN;
-
-  double _px_prime_pip_E = NAN;
-  double _py_prime_pip_E = NAN;
-  double _pz_prime_pip_E = NAN;
-
-  double _px_prime_pip_E_tmt = NAN;
-  double _py_prime_pip_E_tmt = NAN;
-  double _pz_prime_pip_E_tmt = NAN;
-
   double _pip_mom = NAN;
-  double _pip_mom_prime = NAN;
-
-  double _pip_mom_2nd = NAN;
-  double _pip_mom_prime_2nd = NAN;
-
-  double _pip_mom_tmt = NAN;
-  double _pip_theta_tmt = NAN;
-  double _pip_phi_tmt = NAN;
-
-  double _pip_mom_tmt2 = NAN;
-  double _pip_mom_uncorr = NAN;
-  double _pip_theta_uncorr = NAN;
-  double _pip_phi_uncorr = NAN;
-
-  float _E_corr_val_pip = NAN;
-  float _E_corr_val_pip_th = NAN;
-  float _E_corr_val_pip2 = NAN;
-
-  static const int Pip_theta_bins = 10;
-  float alpha_pip_theta_corr = 0.5;
-  double _pip_theta = NAN;
-  double _pip_theta_prime = NAN;
-
-  static const int Pip_phi_bins = 11;
-  float alpha_pip_phi_corr = 1.0;
-  double _pip_phi = NAN;
-  double _pip_phi_prime = NAN;
-
-  // for pim mom corrections ...............
-
-  double _px_prime_pim_th = NAN;
-  double _py_prime_pim_th = NAN;
-  double _pz_prime_pim_th = NAN;
-  double _E_prime_pim_th = NAN;
-
-  double _px_prime_pim_ph = NAN;
-  double _py_prime_pim_ph = NAN;
-  double _pz_prime_pim_ph = NAN;
-
-  double _px_prime_pim_mom = NAN;
-  double _py_prime_pim_mom = NAN;
-  double _pz_prime_pim_mom = NAN;
-
-  double _px_prime_pim_E = NAN;
-  double _py_prime_pim_E = NAN;
-  double _pz_prime_pim_E = NAN;
-
-  double _px_prime_pim_E_tmt = NAN;
-  double _py_prime_pim_E_tmt = NAN;
-  double _pz_prime_pim_E_tmt = NAN;
-
-  double _pim_mom = NAN;
-  double _pim_mom_2nd = NAN;
-  double _pim_mom_tmt = NAN;
-  double _pim_theta_tmt = NAN;
-  double _pim_phi_tmt = NAN;
-  double _pim_mom_tmt2 = NAN;
-  double _pim_mom_prime = NAN;
-  double _pim_mom_prime_2nd = NAN;
-  double _pim_mom_uncorr = NAN;
-  double _pim_theta_uncorr = NAN;
-  double _pim_phi_uncorr = NAN;
-
-  float _E_corr_val_pim = NAN;
-  float _E_corr_val_pim_th = NAN;
-  float _E_corr_val_pim2 = NAN;
-
-  static const int Pim_theta_bins = 10;
-  float alpha_pim_theta_corr = 0.5;
-  double _pim_theta = NAN;
-  double _pim_theta_prime = NAN;
-
-  float min_pim_theta_values[Pim_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
-  float max_pim_theta_values[Pim_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
-  double pim_theta_corr[Pim_theta_bins] = {
-      0.15, 0.05, 0.05, 0.1, -0.3, 0.75, 0.15, -0.2, -0.3, -2.1,
-  };
-  double pim_theta_corr_sim[Pim_theta_bins] = {
-      0.075, 0.075, 0.075, 0.15, 0.15, 0.225, -0.075, 0.1, 0.15, -0.15,
-  };
-
-  static const int Pim_phi_bins = 11;
-  float alpha_pim_phi_corr = 0.5;
-  double _pim_phi = NAN;
-  double _pim_phi_prime = NAN;
-  float min_pim_phi_values[Pim_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
-  float max_pim_phi_values[Pim_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
-  double pim_phi_corr[Pim_phi_bins] = {
-      0.5, 0.1, 0.1, 0.3, -0.1, -0.3, -0.3, -0.1, -0.1, -0.1, 0.3,
-  };
-  double pim_phi_corr_sim[Pim_phi_bins] = {
-      -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
-  };
-  float _dedx_pim;
-  float _dedx_pip;
-  float _dedx_prot;
 
  public:
-  Reaction(){};
+  Reaction() {};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
@@ -443,31 +250,21 @@ class Reaction {
   float prot_theta_lab_measured();
   float prot_Phi_lab_measured();
 
-  // test
-  inline float pim_dedx() { return _dedx_pim; }
-  inline float pip_dedx() { return _dedx_pip; }
-  inline float prot_dedx() { return _dedx_prot; }
-
   void boost();
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
 
   void CalcMissMass();
-  float MM();
-  float MM2();
+  float MM2_mPim();
   float MM2_exclusive();
   float Energy_excl();
   float MM2_mPip();
   float MM2_mProt();
-  float MM2_mPim_corr();
-  float MM2_mPip_corr();
-  float MM2_mProt_corr();
-
-  float w_hadron();
-  float w_difference();
-  float w_hadron_corr();
-  float w_difference_corr();
+  float MM_mPim();
+  float MM_mPip();
+  float MM_mProt();
+  float MM_exclusive();
 
   float inv_Ppip();
   float inv_Ppim();
@@ -479,10 +276,6 @@ class Reaction {
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
-
-  inline float thetaDCr1Prot() { return _thetaDC_r1_Prot; }
-  inline float thetaDCr1Pip() { return _thetaDC_r1_Pip; }
-  inline float thetaDCr1Pim() { return _thetaDC_r1_Pim; }
 
   inline float chi2pid_Elec() { return _chi2pid_Ele; }
   inline float chi2pid_Prot() { return _chi2pid_Prot; }
@@ -602,16 +395,6 @@ class MCReaction : public Reaction {
   float prot_phi_mc_gen();
 
   void CalcMissMass_mc();
-
-  float Diff_elec_x_mu_theta_mc();
-  float Diff_elec_x_mu_phi_mc();
-  float Diff_beam_x_mu_theta_mc();
-  float Diff_beam_x_mu_phi_mc();
-  float MM2_exclusive_mc();
-  float Energy_excl_mc();
-  float x_mu_momentum_mc();
-  float x_mu_theta_lab_mc();
-  float x_mu_Phi_lab_mc();
 
   std::string CsvHeader();
   std::string ReacToCsv();

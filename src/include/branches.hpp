@@ -1,8 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef BRANCHES_H
 #define BRANCHES_H
@@ -484,7 +479,7 @@ class Branches12 {
   TBranch *b_sc_cnd_hx;             //!
   TBranch *b_sc_cnd_hy;             //!
   TBranch *b_sc_cnd_hz;             //!
-  TBranch *b_sc_cnd_pindex;          //!
+  TBranch *b_sc_cnd_pindex;         //!
   TBranch *b_sc_cnd_layer;          //!
   TBranch *b_sc_extras_dedx;        //!
   TBranch *b_sc_extras_size;        //!
@@ -509,10 +504,10 @@ class Branches12 {
   TBranch *b_ft_hodo_radius;        //!
 
  public:
-  Branches12(){};
+  Branches12() {};
   Branches12(const std::shared_ptr<TChain> &tree);
   Branches12(const std::shared_ptr<TChain> &tree, bool mc);
-  ~Branches12(){};
+  ~Branches12() {};
   int GetEntry(long evnt) { return _tree->GetEntry(evnt); };
   bool mc();
   void mc_branches();

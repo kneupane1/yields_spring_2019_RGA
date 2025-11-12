@@ -1,1 +1,4 @@
 build
+.DS_Store
+*.json
+src/.DS_Store
